@@ -1,0 +1,87 @@
+package com.atguigu.spzx.model.vo.common;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+/**
+ * 全局统一返回结果类
+ *
+ * @Data -- 模型set get 类 @Data--
+ */
+
+/**
+ * @Data -- 模型set get 类 @Data--
+ */
+
+/**
+ * @Schema -- swagger 提示--
+ */
+@Schema(description = "响应结果实体类")
+@Data
+public class RespondResult<T> {
+    /**
+     * 返回码
+     */
+    @Schema(description = "业务状态码")
+    private Integer code;
+    /**
+     * 返回消息
+     */
+    @Schema(description = "响应消息")
+    private String message;
+    /**
+     * 返回数据
+     */
+    @Schema(description = "业务数据")
+    private T data;
+
+
+    // 私有化构造
+
+    /**
+     * 私有化构造 / 空参构造器
+     */
+    private RespondResult() {
+    }
+
+
+    /**
+     * 静态build构造器  body
+     */
+    protected static <T> RespondResult<T> build(T body) {
+        RespondResult<T> respondResult = new RespondResult<>();
+        if (body != null) {
+            respondResult.setData(body);
+        }
+        return respondResult;
+    }
+
+    /**
+     * 静态build构造器  body code message
+     */
+    public static <T> RespondResult<T> build(T body, Integer code, String message) {
+        RespondResult<T> respondResult = build(body);
+        respondResult.setCode(code);
+        respondResult.setMessage(message);
+        return respondResult;
+    }
+
+    /**
+     * 静态build构造器  body resultCodeEnum
+     */
+    public static <T> RespondResult<T> build(T body, RespondResultCodeEnum resultCodeEnum) {
+        RespondResult<T> respondResult = build(body);
+        respondResult.setCode(resultCodeEnum.getCode());
+        respondResult.setMessage(resultCodeEnum.getMessage());
+        return respondResult;
+    }
+
+    /**
+     * 静态build构造器  body resultCodeEnum
+     */
+    public static <T> RespondResult<T> ok(T data) {
+        RespondResult<T> result = build(data);
+        return build(data, RespondResultCodeEnum.RespondResultCode_Successful);
+    }
+
+}
