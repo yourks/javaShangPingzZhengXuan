@@ -1,5 +1,6 @@
 package com.atguigu.spzx.manager.service.Impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.atguigu.spzx.common.exception.GuiguException;
 import com.atguigu.spzx.manager.mapper.SysUserMapper;
@@ -8,6 +9,7 @@ import com.atguigu.spzx.model.dto.system.LoginDto;
 import com.atguigu.spzx.model.entity.system.SysUser;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.system.LoginVo;
+import org.mockito.internal.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -39,14 +41,30 @@ public class SysUserServiceImpl implements SysUserService {
      //7 登录成功，生成用户唯一标识token
      //8 把登录成功用户信息放到redis里面
      //9 返回loginvo对象
-
-     *    1. 账号进行数据库查询 返回用户对象
-     *    2. 对比用户密码(md5加密)
-     *    3. 成功,根据userId生成token -> map key=token value=token值 - result封装
-     *    4. 失败,判断账号还是密码错误,封装对应的枚举错误即可
      */
+
+    /**10。1
+     1.获取输入验证码和存储到redis的key名称  loginDto获取到
+     2。根据获取的redis里面key ，查询redis里面存储验证码
+     3 比较输入的验证码和 redis存储验证码是否一致
+     4 如果不一致，提示用户，校验失败
+     5 如果一致，删除redis里面验证码
+     * */
     @Override
     public LoginVo adminSystemIndexLogin(LoginDto loginDto) {
+        //10。1
+        String captcha = loginDto.getCaptcha();
+        String key = loginDto.getCodeKey();
+        //10。2
+        String redisTemplateCaptcha = redisTemplate.opsForValue().get("user:validate"+key);
+        //10.3
+        if (StrUtil.isEmpty(redisTemplateCaptcha) || !StrUtil.equalsIgnoreCase(captcha,redisTemplateCaptcha)) {
+            //10.4
+            throw new GuiguException(ResultCodeEnum.VALIDATECODE_ERROR);
+        }
+        //10.5
+        redisTemplate.delete("user:validate"+key);
+
         //1
         String userName = loginDto.getUserName();
         //2
@@ -82,5 +100,28 @@ public class SysUserServiceImpl implements SysUserService {
         LoginVo loginVo = new LoginVo();
         loginVo.setToken(token);
         return loginVo;
+    }
+    /**
+    * 大概流程:
+            *    1.获取token,解析token对应的userId
+     *    2.根据userId,查询用户数据
+     *    3.将用户数据的密码置空,并且把用户数据封装到结果中key = loginUser
+     *    4.失败返回504 (本次先写到当前业务,后期提取到拦截器和全局异常处理器)
+     */
+
+    @Override
+    public SysUser getUserInfo(String token) {
+
+        String userJson = redisTemplate.opsForValue()
+                .get("user:login"+token);
+
+        SysUser sysUser = (SysUser) JSON.parseObject(userJson,SysUser.class);
+
+        return sysUser;
+    }
+
+    @Override
+    public void logout(String token) {
+        redisTemplate.delete("user:validate"+token);
     }
 }
