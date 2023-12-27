@@ -1,8 +1,10 @@
 package com.atguigu.spzx.manager;
 
+import com.atguigu.spzx.manager.properties.UserProperties;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -19,6 +21,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @MapperScan("com.atguigu.spzx.manager.mapper")
 @ComponentScan(basePackages = {"com.atguigu.spzx"})
+@EnableConfigurationProperties(value = {UserProperties.class})
 public class ManagerApplication {
     public static void main(String[] args) {
         /**

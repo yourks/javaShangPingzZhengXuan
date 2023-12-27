@@ -56,10 +56,30 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
      *     注册 拦截器 设置
      * */
     /**
-     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new GlobalHandleInterceptor());
-    }
+      @Override
+      public void addInterceptors(InterceptorRegistry registry) {
+          /**
+           配置方案1： 拦截全部请求
+           registry.addInterceptor(new GlobalHandleInterceptor());
+
+           配置方案2： 指定地址拦截 .addPathPatterns("/user/data");
+              *  任意一层字符串   ** 任意多层字符串
+                   registry.addInterceptor(new MyInterceptor())
+                           .addPathPatterns("/user/**");
+
+           配置方案3：排除拦截 排除的地址应该在拦截地址内部！
+                   registry.addInterceptor(new MyInterceptor())
+                           .addPathPatterns("/user/**").excludePathPatterns("/user/data1");
+           * */
+                    registry.addInterceptor(loginAuthInterceptor)
+                    /**
+                     .excludePathPatterns("/admin/system/index/login" ,
+                             "/admin/system/index/generateValidateCode")
+                     * */
+
+                  .excludePathPatterns(userProperties.getNoAuthUrls())
+                  .addPathPatterns("/**");;
+      }
       * */
 
     /**

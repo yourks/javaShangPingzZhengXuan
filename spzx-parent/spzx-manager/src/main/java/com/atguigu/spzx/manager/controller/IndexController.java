@@ -9,6 +9,7 @@ import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.system.LoginVo;
 import com.atguigu.spzx.model.vo.system.ValidateCodeVo;
+import com.atguigu.spzx.utils.TemplateThreadLocalUtils;
 import com.sun.net.httpserver.HttpServer;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -83,12 +84,14 @@ public class IndexController {
      *    4.失败返回504 (本次先写到当前业务,后期提取到拦截器和全局异常处理器)
      */
     @GetMapping(value = "/getUserInfo")
-    public Result<SysUser> getUserInfo(@RequestHeader(name = "token") String token) {
+    public Result<SysUser> getUserInfo() {
         /**  这种方式获取token 也可以
-             public Result<SysUser> getUserInfo(HttpServletRequest request) {
+         public Result<SysUser> getUserInfo(@RequestHeader(name = "token") String token) {
+         1。public Result<SysUser> getUserInfo(HttpServletRequest request) {
                  String token = request.getHeader("token");}
+         2.SysUser sysUser = sysUserService.getUserInfo(token) ;
          * */
-        SysUser sysUser = sysUserService.getUserInfo(token) ;
+        SysUser sysUser = TemplateThreadLocalUtils.get() ;
         return Result.build(sysUser , ResultCodeEnum.SUCCESS) ;
     }
 

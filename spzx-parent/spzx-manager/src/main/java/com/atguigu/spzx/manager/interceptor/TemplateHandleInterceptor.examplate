@@ -1,0 +1,156 @@
+package com.atguigu.spzx.manager.interceptor;
+
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.atguigu.spzx.model.entity.system.SysUser;
+import com.atguigu.spzx.model.vo.common.Result;
+import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
+import com.atguigu.spzx.utils.TemplateThreadLocalUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.concurrent.TimeUnit;
+
+/**
+ *
+ * 1.sringMvc 内全局拦截器 拦截位置 （1.进入方法前 2.走出方法后 3.整体处理完毕） 简书地址
+ *  1）进入方法前 处理 编码格式设置。登录保护。权限处理！
+ *  2）走出方法后 对结果处理！ 敏感词汇检查！！
+ *
+ * 2. 再对应 springmvc 配置类 声明
+ * public void addInterceptors(InterceptorRegistry registry) {
+ *         //配置方案1： 拦截全部请求
+ *         //registry.addInterceptor(new GlobalHandleInterceptor());
+ *         //配置方案2： 指定地址拦截 .addPathPatterns("/user/data");
+ *         //   *  任意一层字符串   ** 任意多层字符串
+ * //        registry.addInterceptor(new MyInterceptor())
+ * //                .addPathPatterns("/user/**");
+ *         //配置方案3：排除拦截 排除的地址应该在拦截地址内部！
+ * //        registry.addInterceptor(new MyInterceptor())
+ * //                .addPathPatterns("/user/**").excludePathPatterns("/user/data1");
+ *         registry.addInterceptor(new GlobalHandleInterceptor());
+ *     }
+ *  3.多个拦截器执行顺序 aop 思维 先调用 优先级高  pre 先  post after 后
+ */
+@Component
+public class HandleInterceptor implements HandlerInterceptor {
+
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
+
+    /**
+     *  执行handler之前！调用的拦截方法！
+     *  编码格式设置。登录保护。权限处理！
+     * filter - doFilter
+     * @param request 请求对象
+     * @param response 响应对象
+     * @param handler handler就是我们要调用的方法对象
+     * @return  true 放行  false拦截
+     * @throws Exception
+     * */
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        /**
+         1 获取请求方式
+         如果请求方式是options 预检请求，直接放行
+         2 从请求头获取token
+         3 如果token为空，返回错误提示
+         4 如果token不为空，拿着token查询redis
+         5 如果redis查询不到数据，返回错误提示
+         6 如果redis查询到用户信息，把用户信息放到ThreadLocal里面
+         7 把redis用户信息数据更新过期时间
+         8 放行
+         * */
+        //1
+        String method = request.getMethod();
+        if("OPTIONS".equals(method)) {
+            return true;
+        }
+        //2
+        String token = request.getHeader("token");
+
+        //3
+        if(StrUtil.isEmpty(token)) {
+            responseNoLoginInfo(response);
+            return false;
+        }
+
+        //4
+        String userInfoString = redisTemplate.opsForValue().get("user:login" + token);
+
+        //5
+        if(StrUtil.isEmpty(userInfoString)) {
+            responseNoLoginInfo(response);
+            return false;
+        }
+
+        //6
+        SysUser sysUser = JSON.parseObject(userInfoString, SysUser.class);
+        TemplateThreadLocalUtils.set(sysUser);
+
+        //7
+        redisTemplate.expire("user:login" + token,30, TimeUnit.MINUTES);
+
+        //8
+        return true;
+    }
+
+    /**
+     响应208状态码给前端
+     * */
+    private void responseNoLoginInfo(HttpServletResponse response) {
+        Result<Object> result = Result.build(null, ResultCodeEnum.LOGIN_AUTH);
+        PrintWriter writer = null;
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=utf-8");
+        try {
+            writer = response.getWriter();
+            writer.print(JSON.toJSONString(result));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) writer.close();
+        }
+    }
+
+    /**
+     * 当handler执行完毕后。出发的方法！ 没有拦截机制了！
+     * 此方法只有 preHandler return true
+     *
+     * 对结果处理！ 敏感词汇检查！！
+     *
+     * @param request 请求
+     * @param response 响应
+     * @param handler handler方法
+     * @param modelAndView 返回的视图和共享域数据对象
+     * (can also be {@code null})
+     * @throws Exception
+     */
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        System.out.println("MyInterceptor.postHandle");
+    }
+
+    /**
+     * 整体处理完毕！！
+     * @param request current HTTP request
+     * @param response current HTTP response
+     * @param handler the handler (or {@link "HandlerMethod"}) that started asynchronous=
+     * @param ex  handler报错了 异常对象
+     * @throws Exception
+     */
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        //ThreadLocal删除
+        TemplateThreadLocalUtils.remove();
+    }
+}
