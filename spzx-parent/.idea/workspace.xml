@@ -5,17 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24a046f5-c238-4da6-a6af-99a43cae6569" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/spzx-common/common-util/src/main/java/com/atguigu/spzx/utils/TemplateThreadLocalUtils.examplate" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-common/common-util/src/main/java/com/atguigu/spzx/utils/TemplateThreadLocalUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/interceptor/LoginAuthInterceptor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/interceptor/TemplateHandleInterceptor.examplate" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/properties/UserProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/properties/yamlConfigPropertys.examplate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-common/common-service/main/java/com/atguigu/spzx/common/config/WebMvcConfiguration.examplate" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/config/WebMvcConfiguration.examplate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-common/common-service/main/java/com/atguigu/spzx/common/config/WebMvcConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/config/WebMvcConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/ManagerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/ManagerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/IndexController.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/IndexController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/resources/application-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/application-dev.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/SysRoleController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/SysRoleMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/SysRoleServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/SysRoleService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/role/SysRoleMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/test/java/ManagerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-common/common-service/target/classes/com/atguigu/spzx/common/config/WebMvcConfiguration.examplate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/user/mapper.xml.examplate" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/mapper.xml.examplate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-manager/target/classes/application-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/target/classes/application-dev.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-manager/target/classes/mapper/user/mapper.xml.examplate" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,11 +26,11 @@
       <list>
         <option value="mybatis-config" />
         <option value="logback" />
-        <option value="mapper" />
         <option value="Main" />
         <option value="RespondResultCodeEnum" />
         <option value="RespondResult" />
         <option value="Interface" />
+        <option value="mapper" />
         <option value="Class" />
       </list>
     </option>
@@ -89,10 +88,11 @@
       <recent name="$PROJECT_DIR$/spzx-common/common-util/src/main/java/com/atguigu/spzx/utils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper" />
+      <recent name="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/role" />
       <recent name="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager" />
       <recent name="$PROJECT_DIR$/spzx-manager/src/main/java" />
       <recent name="$PROJECT_DIR$/spzx-manager/src/main/resources" />
-      <recent name="$PROJECT_DIR$/spzx-common/common-service/src/main/java" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.atguigu.spzx.manager.interceptor" />
@@ -136,7 +136,7 @@
       <workItem from="1703485213501" duration="10578000" />
       <workItem from="1703500902291" duration="5842000" />
       <workItem from="1703552784060" duration="1984000" />
-      <workItem from="1703554916381" duration="30348000" />
+      <workItem from="1703554916381" duration="43726000" />
     </task>
     <servers />
   </component>

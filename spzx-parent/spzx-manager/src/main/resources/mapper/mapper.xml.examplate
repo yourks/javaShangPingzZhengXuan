@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
 <!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
-<mapper namespace="">
+<mapper namespace="com.atguigu.spzx.manager.mapper.SysRoleMapper">
     <!-- 基础说明～～～～ -->
     <!-- 概念1
     申明标签写sql语句 delete select update insert
@@ -87,6 +87,27 @@
     -->
 
     <!-- resultMap 直接复制的例子～～～～
+    单层
+     1。映射查询到的字段
+     2。用于select查询公用抽取的列
+    <resultMap id="sysRoleMap" type="com.atguigu.spzx.model.entity.system.SysRole" autoMapping="true"></resultMap>
+    <sql id="columns">
+        id,role_name,role_code,description,create_time,update_time,is_deleted
+    </sql>
+
+    <select id="findByPage" resultMap="sysRoleMap">
+        selected <include refid="columns"/>
+        from sys_role
+        <where>
+            <if test="roleName != null and roleName != ''">
+                and role_name like concat('%',#{roleName},'%')
+            </if>
+            and is_deleted=0
+        </where>
+        order by id desc
+    </select>
+
+    多层嵌套
     <resultMap id="teacherResultMap" type="com.atguigu.pojo.Teacher">
         <id column="s_id" property="sId"/>
         <association property="author" javaType="Author">
@@ -207,7 +228,7 @@
             where emp_id = #{ employee.empId };
         </foreach>
     </update>
-    
+
     //使用sql标签抽取重复出现的SQL片段 if～～～～
     <sql id="mySelectSql">
         select emp_id,emp_name,emp_age,emp_salary,emp_gender from t_emp
@@ -246,4 +267,4 @@
         update t_emp set emp_salary = #{ empSalary } where emp_name = #{ empName };
     </update>
     -->
-</mapper>
+<!--   搜索 直接复制的例子～～～～-->
