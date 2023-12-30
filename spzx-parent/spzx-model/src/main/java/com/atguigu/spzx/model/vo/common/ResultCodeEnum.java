@@ -16,6 +16,9 @@ public enum ResultCodeEnum {
     ACCOUNT_STOP( 216, "账号已停用"),
 
     STOCK_LESS( 219, "库存不足"),
+    INSERT_FAILL( 220, "插入数据失败"),
+    UPDATE_FAILL( 221, "数据更新失败"),
+    ACCOUNT_REGISTERED( 216, "账号名已注册"),
 
     ;
 

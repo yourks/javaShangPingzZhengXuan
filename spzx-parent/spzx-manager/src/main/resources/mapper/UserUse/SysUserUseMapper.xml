@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
 <!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
-<mapper namespace="com.atguigu.spzx.manager.mapper.SysRoleMapper">
+<mapper namespace="com.atguigu.spzx.manager.mapper.SysUserUseMapper">
     <!-- 基础说明～～～～ -->
     <!-- 概念1
     申明标签写sql语句 delete select update insert
@@ -87,27 +87,6 @@
     -->
 
     <!-- resultMap 直接复制的例子～～～～
-    单层
-     1。映射查询到的字段
-     2。用于select查询公用抽取的列
-    <resultMap id="sysRoleMap" type="com.atguigu.spzx.model.entity.system.SysRole" autoMapping="true"></resultMap>
-    <sql id="columns">
-        id,role_name,role_code,description,create_time,update_time,is_deleted
-    </sql>
-
-    <select id="findByPage" resultMap="sysRoleMap">
-        select <include refid="columns"/>
-        from sys_role
-        <where>
-            <if test="roleName != null and roleName != ''">
-                and role_name like concat('%',#{roleName},'%')
-            </if>
-            and is_deleted=0
-        </where>
-        order by id desc
-    </select>
-
-    多层嵌套
     <resultMap id="teacherResultMap" type="com.atguigu.pojo.Teacher">
         <id column="s_id" property="sId"/>
         <association property="author" javaType="Author">
@@ -228,7 +207,7 @@
             where emp_id = #{ employee.empId };
         </foreach>
     </update>
-
+    
     //使用sql标签抽取重复出现的SQL片段 if～～～～
     <sql id="mySelectSql">
         select emp_id,emp_name,emp_age,emp_salary,emp_gender from t_emp
@@ -267,6 +246,75 @@
         update t_emp set emp_salary = #{ empSalary } where emp_name = #{ empName };
     </update>
     -->
-<!--   搜索 直接复制的例子～～～～-->
 
-<!--@Param很坑 使用和 不使用都注意下 下次 就先找这个麻烦～～～～-->
+
+<!--    findByPage-->
+
+    <resultMap id="sysUserUseMap" type="com.atguigu.spzx.model.entity.system.SysUser" autoMapping="true"></resultMap>
+    <sql id="columns">
+        id,username userName,password,name,phone,avatar,description,status,update_time,create_time,is_deleted
+    </sql>
+<!--    keyword-->
+    <select id="findByPage" resultMap="sysUserUseMap">
+        select <include refid="columns"/>
+        from sys_user
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and username like concat('%',#{keyword},'%')
+            </if>
+            <if test="createTimeBegin != null and createTimeBegin != ''">
+                and create_time >= #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd != ''">
+                and create_time &lt;= #{createTimeEnd}
+            </if>
+            and is_deleted=0
+        </where>
+        order by id desc
+    </select>
+    <!--    selectedName-->
+    <select id="selectedName" resultMap="sysUserUseMap">
+        select <include refid="columns"></include> from sys_user where username = #{ userName };
+    </select>
+
+
+    <insert id="insertUserUseMapper" >
+        insert into sys_user(id,username,password,name,phone,avatar,description
+        ,status,update_time,create_time,is_deleted)
+        values(#{id},#{userName},#{password},
+        #{name},#{phone},#{avatar},#{description}
+        ,1,now(),now(),0)
+    </insert>
+
+
+    <update id="updateSysUser" >
+        update sys_user set
+        <if test="userName != null and userName != ''">
+            username = #{ userName } ,
+        </if>
+        <if test="password != null and password != ''">
+            password = #{ password } ,
+        </if>
+        <if test="name != null and name != ''">
+            name = #{ name } ,
+        </if>
+        <if test="phone != null and phone != ''">
+            phone = #{ phone } ,
+        </if>
+        <if test="avatar != null and avatar != ''">
+            avatar = #{ avatar } ,
+        </if>
+        <if test="description != null and description != ''">
+            description = #{ description } ,
+        </if>
+        <if test="status != null and status != ''">
+            status = #{ status } ,
+        </if>
+        update_time =  now()
+        where id = #{ id }
+    </update>
+
+    <update id="deleteById" >
+        update sys_user set update_time = now(),is_deleted = #{ 1 } where id = #{ id };
+    </update>
+</mapper>

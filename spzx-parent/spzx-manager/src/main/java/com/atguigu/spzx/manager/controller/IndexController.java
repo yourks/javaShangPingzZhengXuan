@@ -85,6 +85,7 @@ public class IndexController {
      */
     @GetMapping(value = "/getUserInfo")
     public Result<SysUser> getUserInfo() {
+
         /**  这种方式获取token 也可以
          public Result<SysUser> getUserInfo(@RequestHeader(name = "token") String token) {
          1。public Result<SysUser> getUserInfo(HttpServletRequest request) {

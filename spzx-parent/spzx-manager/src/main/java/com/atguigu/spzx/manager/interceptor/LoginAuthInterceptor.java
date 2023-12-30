@@ -47,7 +47,7 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
         //2
         String token = request.getHeader("token");
 
-        //3
+//        3
         if(StrUtil.isEmpty(token)) {
             responseNoLoginInfo(response);
             return false;
@@ -56,11 +56,25 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
         //4
         String userInfoString = redisTemplate.opsForValue().get("user:login" + token);
 
-        //5
+//        5
         if(StrUtil.isEmpty(userInfoString)) {
             responseNoLoginInfo(response);
             return false;
         }
+//        //3
+////        if(StrUtil.isEmpty(token)) {
+////            responseNoLoginInfo(response);
+////            return false;
+////        }
+//
+//        //4
+//        String userInfoString = redisTemplate.opsForValue().get("user:login" + token);
+//
+//        //5
+////        if(StrUtil.isEmpty(userInfoString)) {
+////            responseNoLoginInfo(response);
+////            return false;
+////        }
 
         //6
         SysUser sysUser = JSON.parseObject(userInfoString, SysUser.class);

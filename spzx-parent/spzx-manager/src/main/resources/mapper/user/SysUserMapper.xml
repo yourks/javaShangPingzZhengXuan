@@ -11,4 +11,5 @@
         select <include refid="columns" /> from sys_user where username = #{userName} and is_deleted = 0
     </select>
 
+
 </mapper>

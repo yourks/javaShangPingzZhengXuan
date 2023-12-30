@@ -96,7 +96,7 @@
     </sql>
 
     <select id="findByPage" resultMap="sysRoleMap">
-        selected <include refid="columns"/>
+        select <include refid="columns"/>
         from sys_role
         <where>
             <if test="roleName != null and roleName != ''">
@@ -268,3 +268,5 @@
     </update>
     -->
 <!--   搜索 直接复制的例子～～～～-->
+
+<!--@Param很坑 使用和 不使用都注意下 下次 就先找这个麻烦～～～～-->
