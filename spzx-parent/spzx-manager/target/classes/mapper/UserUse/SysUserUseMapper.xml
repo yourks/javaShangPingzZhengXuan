@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.manager.mapper.SysUserUseMapper">
+    <!-- 基础说明～～～～ -->
+    <!-- 概念1
+    申明标签写sql语句 delete select update insert
+    每个标签对应接口的一个方法  方法的一个实现
+    注意mapper 中 接口不能重载  也就是不能方法名重复
+    id="" 填入方法名 resultType=""  填入方法返回值 注意是地址全名
+    传入参数 如果是自定义类 所以 传入参数 =  自定义类 的 属性
+    -->
+    <!-- 参数～～～～ -->
+    <!--概念2
+    #{ key }  = 占位符+赋值  推荐使用 可以防止【注入攻击】的问题 只能替代值 不能替代容器名比如列名
+    ${ key }  = 字符串拼接
+    xxx(cloumnName,cloumnValue)
+    sql select *from 表 where 列名是动态的列名 = 动态的值 ${ cloumnName } = #{ cloumnValue }
+
+    动态值 #{ key } 动态列名 容器名 关键字 ${ key }
+    -->
+
+    <!--概念3
+    传入参数
+    1.单个简单类型  随便传  传模型属性名推荐
+    2.多个简单类型   1.参数重命名 @Param("empSalary") 2.arg0,arg1 3.param1,param2
+    3.实体类类型参数 传模型属性名
+    4.map key = map的key 就好
+    返回参数 resultType = "全限定符 ｜ 别名 ｜ 如果是返回集合类型，写范型类型即可"
+    1. java.lang.String/com.atguigu.pojo.Employee全返回名填写
+    2.省略 模式 1.基础数据类型 int.double.float.char.boolean.
+                 对象类型    String.Integer.BigDecimal.Object.Map.HashMap.List.ArrayList.Collection
+               2.再config文件里面配置
+                 批量将包下的类给与别名，别名就是类的首字母小写！
+                 <typeAliases> <package name="domain.blog"/> </typeAliases>
+                 再填写自定义的类名   或者如下  再填写自定义的类名
+                 <typeAliases>
+                    <typeAlias alias="Author" type="domain.blog.Author"/>
+                 </typeAliases>
+    3.Map 相当与取成了字典  Map<String,Object>
+    4.集合 如果是返回集合类型，写范型类型即可
+    5.自增长主键
+        useGeneratedKeys="true" keyColumn="emp_id" keyProperty="empId"
+        useGeneratedKeys="true" 我们想要数据库自动增强的主键值
+        keyColumn="emp_id" 主键列的值!!!
+        keyProperty="empId" 接收主键列值的属性!!!
+    6.非自增长  keyProperty 值  resultType 类型  order插入语句之前执行还是之后执行
+           <selectKey keyProperty="sId" resultType="java.lang.String" order="BEFORE">
+                SELECT REPLACE(UUID(),"-","") AS s_id;
+           </selectKey>
+    7.resultMap
+    -->
+
+    <!-- 项目犯过的错误～～～～ -->
+    <!-- 注意点
+    Double empSalary 不能=比较 精度丢失
+    <select id="selectNameAndSalary" resultType="com.atguigu.pojo.Employee">
+        select *from t_emp where emp_salary = #{ arg0 } and emp_name = #{ arg1 };
+    </select>
+
+    mapper.xml 不允许 方法重载
+    别名对应  数据库取别名 select emp_id empId,emp_name empName,emp_salary empSalary from t_emp where emp_id=#{maomi}
+    -->
+    <!-- 待补充
+    timeout这个设置是在抛出异常之前，驱动程序等待数据库返回请求结果的秒数。默认值为未设置（unset）（依赖数据库驱动）。 ？？？
+    statementType可选 STATEMENT，PREPARED 或 CALLABLE。这会让 MyBatis 分别使用 Statement，PreparedStatement 或 CallableStatement，默认值：PREPARED。？？？
+    -->
+
+    <!-- resultMap 概念～～～～
+    专门声明一个resultMap设定column /表 到property /属性 之间的对应关系
+
+    resultMap id="teacherResultMap"  resultMap id  对应 select 下resultMap="teacherResultMap"
+    type="com.atguigu.pojo.Teacher"  使用的类
+    id标签设置主键列
+    result标签设置普通列
+    association标签设置对应实体类的列
+    property 实体类对应属性名
+    javaType 实体类对应类名
+    collection 实体类对象集合
+    ofType 实体类对象集合对应类名 范型
+    queryById 使用的方法
+    autoMappingBehavior FULL 多表映射优化后只要写 id标签就好 result标签可以移除
+    <result column="s_name" property="sName"/>
+    -->
+
+    <!-- resultMap 直接复制的例子～～～～
+    <resultMap id="teacherResultMap" type="com.atguigu.pojo.Teacher">
+        <id column="s_id" property="sId"/>
+        <association property="author" javaType="Author">
+            <id property="id" column="author_id"/>
+        </association>
+        <collection property="tags" ofType="Tag" >
+            <id property="id" column="tag_id"/>
+        </collection>
+    </resultMap>
+    <select id="queryById" resultMap="teacherResultMap">
+        select s_id,s_name from teacher where s_id=#{sId}
+    </select>
+    -->
+    <!-- 标签 直接复制的例子～～～～
+    // where if～～～～
+    <select id="selectedNameAndSalaryToEmployeeList" resultType="com.atguigu.pojo.Employee">
+        select *from t_emp <where>
+        <if test="empName != null" >
+            emp_name = #{ empName }
+        </if>
+        <if test="empSalary != null" >
+            and emp_salary = #{ empSalary }
+        </if>
+    </where>
+    </select>
+    //set if～～～～
+    <update id="update" >
+        update t_emp <set>
+        <if test="empSalary != null">
+            emp_salary = #{ empSalary },
+        </if>
+
+        <if test="empName != null">
+            emp_name = #{ empName }
+        </if>
+        where emp_id = #{empId}
+        </set>;
+    </update>
+    //choose when   if～～～～
+    <select id="queryChoose" resultType="Employee">
+        select *from t_emp where
+                            <choose>
+                                <when test="empName != null">
+                                    emp_name = #{ empName }
+                                </when>
+                                <when test="empSalary != null">
+                                    emp_salary = #{ empSalary }
+                                </when>
+                                <otherwise>
+                                    1=1
+                                </otherwise>
+                            </choose>
+    </select>
+
+    //trim where set if～～～～
+    - prefix属性：指定要动态添加的前缀
+    - suffix属性：指定要动态添加的后缀
+    - prefixOverrides属性：指定要动态去掉的前缀，使用“|”分隔有可能的多个值
+    - suffixOverrides属性：指定要动态去掉的后缀，使用“|”分隔有可能的多个值
+    <select id="queryTrim" resultType="com.atguigu.pojo.Employee">
+        select *from t_emp <trim prefix="where" prefixOverrides="and|or">
+            <if test="empName != null">
+            emp_name = #{ empName }
+            </if>
+            <if test="empSalary != null">
+            and emp_salary = #{ empSalary }
+            </if>
+        </trim>
+    </select>
+
+    <update id="updateTrim" >
+        update t_emp <trim prefix="set" suffixOverrides=",">
+        <if test="empName != null">
+            emp_name = #{ empName }
+        </if>
+        <if test="empSalary != null">
+            , emp_salary = #{ empSalary }
+        </if>
+        where emp_id = #{empId}
+    </trim>
+    </update>
+
+    //foreach if～～～～
+    foreach ( 1 , 2 , 3  )
+    遍历的内容， #{遍历项 item指定的key}
+    collection="ids | arg0 | list"
+    open 遍历之前要追加的字符串
+    close 遍历结束需要添加的字符串
+    separator 每次遍历的分割符号！ 如果是最后一次，不会追加
+    item 获取每个遍历项
+    <select id="queryBatch" resultType="com.atguigu.pojo.Employee">
+        select *from t_emp where emp_id  in
+        <foreach collection="ids" open="(" separator="," close=")" item="empId">
+            #{ empId }
+        </foreach>
+    </select>
+
+    <delete id="deleteBatch">
+        delete from t_emp where emp_id in
+        <foreach collection="ids" open="(" separator="," close=")" item="item">
+            #{ item }
+        </foreach>
+    </delete>
+
+    <insert id="insertBatch" >
+        insert into t_emp(emp_name,emp_salary) values
+        <foreach collection="ids" separator="," item="employee">
+            (#{employee.empName},#{employee.empSalary})
+        </foreach>
+    </insert>
+
+    批量更新时需要注意/需要在数据库连接信息的URL地址中设置
+    atguigu.dev.url=jdbc:mysql:///mybatis-example?allowMultiQueries=true
+    ?allowMultiQueries=true
+    <update id="updateBatch" >
+        <foreach collection="ids" item="employee">
+            update t_emp set emp_salary = #{ employee.empSalary },emp_name = #{ employee.empName }
+            where emp_id = #{ employee.empId };
+        </foreach>
+    </update>
+    
+    //使用sql标签抽取重复出现的SQL片段 if～～～～
+    <sql id="mySelectSql">
+        select emp_id,emp_name,emp_age,emp_salary,emp_gender from t_emp
+    </sql>
+    使用include标签引用声明的SQL片段
+    <select id="queryBatch" resultType="com.atguigu.pojo.Employee">
+        <include refid="mySelectSql"/>
+    </select>
+    -->
+
+    <!-- sql 直接复制的例子～～～～
+    <select id="selectEmployee" resultType="com.atguigu.pojo.Employee">
+        select *from t_emp where emp_id = #{ emp_id };
+    </select>
+
+     <delete id="deleteEmployee">
+        delete from t_emp where emp_id = #{ emp_id };
+    </delete>
+    插入 检查 有没有提交事务 ！！！！！！！！！！！！！
+    <insert id="insertEmployee" >
+        insert into t_emp(emp_name,emp_salary) values(#{empName},#{empSalary})
+    </insert>
+
+    <insert id="insertEmployee" useGeneratedKeys="true" keyColumn="emp_id" keyProperty="empId">
+        insert into t_emp(emp_name,emp_salary) values(#{empName},#{empSalary})
+    </insert>
+
+    <insert id="insertTeacher" >
+       <selectKey keyProperty="sId" resultType="java.lang.String" order="BEFORE">
+           SELECT REPLACE(UUID(),"-","") AS s_id ;
+       </selectKey>
+       insert into teacher(s_id,s_name) values(#{sId},#{sName});
+    </insert>
+
+    <update id="updateTomSalary" >
+        update t_emp set emp_salary = #{ empSalary } where emp_name = #{ empName };
+    </update>
+    -->
+
+
+<!--    findByPage-->
+
+    <resultMap id="sysUserUseMap" type="com.atguigu.spzx.model.entity.system.SysUser" autoMapping="true"></resultMap>
+    <sql id="columns">
+        id,username userName,password,name,phone,avatar,description,status,update_time,create_time,is_deleted
+    </sql>
+<!--    keyword-->
+    <select id="findByPage" resultMap="sysUserUseMap">
+        select <include refid="columns"/>
+        from sys_user
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and username like concat('%',#{keyword},'%')
+            </if>
+            <if test="createTimeBegin != null and createTimeBegin != ''">
+                and create_time >= #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd != ''">
+                and create_time &lt;= #{createTimeEnd}
+            </if>
+            and is_deleted=0
+        </where>
+        order by id desc
+    </select>
+    <!--    selectedName-->
+    <select id="selectedName" resultMap="sysUserUseMap">
+        select <include refid="columns"></include> from sys_user where username = #{ userName };
+    </select>
+
+
+    <insert id="insertUserUseMapper" >
+        insert into sys_user(id,username,password,name,phone,avatar,description
+        ,status,update_time,create_time,is_deleted)
+        values(#{id},#{userName},#{password},
+        #{name},#{phone},#{avatar},#{description}
+        ,1,now(),now(),0)
+    </insert>
+
+
+    <update id="updateSysUser" >
+        update sys_user set
+        <if test="userName != null and userName != ''">
+            username = #{ userName } ,
+        </if>
+        <if test="password != null and password != ''">
+            password = #{ password } ,
+        </if>
+        <if test="name != null and name != ''">
+            name = #{ name } ,
+        </if>
+        <if test="phone != null and phone != ''">
+            phone = #{ phone } ,
+        </if>
+        <if test="avatar != null and avatar != ''">
+            avatar = #{ avatar } ,
+        </if>
+        <if test="description != null and description != ''">
+            description = #{ description } ,
+        </if>
+        <if test="status != null and status != ''">
+            status = #{ status } ,
+        </if>
+        update_time =  now()
+        where id = #{ id }
+    </update>
+
+    <update id="deleteById" >
+        update sys_user set update_time = now(),is_deleted = #{ 1 } where id = #{ id };
+    </update>
+</mapper>
