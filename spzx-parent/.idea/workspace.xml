@@ -5,37 +5,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="24a046f5-c238-4da6-a6af-99a43cae6569" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/FileUploadController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/SysUserUseController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/SysAssignMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/SysUserUseMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/properties/MinioProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/FileUploadService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/FileUploadServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/SysAssignServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/SysUserUseServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/SysAssignService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/SysUserUseService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/UserUse/SysAssignMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/UserUse/SysUserUseMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-common/common-util/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-common/common-util/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/ManagerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/ManagerApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/BrandController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/CategoryBrandController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/CategoryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/SysMenuController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/SysRoleMenuController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/listener/ExcelListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/BrandMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/CategoryBrandMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/CategoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/SysMenuMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/SysRoleMenuMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/BrandSerVice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/CategoryBrandSerVice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/CategoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/BrandSerViceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/CategoryBrandSerViceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/CategoryServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/SysMenuServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/SysRoleMenuServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/SysMenuService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/SysRoleMenuService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/utils/TreeMapListHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/brandMapper/BrandMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/category/CategoryBrandMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/category/CategoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/menu/SysMenuMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/menu/SysRoleMenuMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/test/java/EasyExcelTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/spzx-manager/src/test/java/ExcelListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/IndexController.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/IndexController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/SysRoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/SysRoleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/interceptor/LoginAuthInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/interceptor/LoginAuthInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/SysRoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/SysRoleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/SysRoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/SysRoleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/SysRoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/SysRoleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/resources/application-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/application-dev.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/mapper.xml.examplate" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/mapper.xml.examplate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/role/SysRoleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/role/SysRoleMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/user/SysUserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/user/SysUserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/target/classes/application-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/target/classes/application-dev.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/target/classes/mapper/mapper.xml.examplate" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/target/classes/mapper/mapper.xml.examplate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/target/classes/mapper/role/SysRoleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/target/classes/mapper/role/SysRoleMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-manager/target/classes/mapper/user/SysUserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/target/classes/mapper/user/SysUserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spzx-model/src/main/java/com/atguigu/spzx/model/vo/common/ResultCodeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-model/src/main/java/com/atguigu/spzx/model/vo/common/ResultCodeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/SysAssignMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/mapper/SysAssignMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/SysAssignServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/Impl/SysAssignServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/SysAssignService.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/service/SysAssignService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/UserUse/SysAssignMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/userUse/SysAssignMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/UserUse/SysUserUseMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/userUse/SysUserUseMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-manager/target/classes/mapper/UserUse/SysAssignMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/target/classes/mapper/UserUse/SysAssignMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-manager/target/classes/mapper/UserUse/SysUserUseMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-manager/target/classes/mapper/UserUse/SysUserUseMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spzx-model/src/main/java/com/atguigu/spzx/model/vo/product/CategoryExcelVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/spzx-model/src/main/java/com/atguigu/spzx/model/vo/product/CategoryExcelVo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,9 +57,9 @@
         <option value="Main" />
         <option value="RespondResultCodeEnum" />
         <option value="RespondResult" />
-        <option value="mapper" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
+        <option value="mapper" />
       </list>
     </option>
   </component>
@@ -88,7 +95,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "17",
-    "last_opened_file_path": "/Users/mac/Desktop/JavaProjectUseing/javaShangPingzZhengXuan/spzx-parent/spzx-manager/src/main/java/com/atguigu/spzx/manager/properties",
+    "last_opened_file_path": "/Users/mac/Desktop/JavaProjectUseing/javaShangPingzZhengXuan/spzx-parent",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -109,13 +116,15 @@
       <recent name="$PROJECT_DIR$/spzx-common/common-util/src/main/java/com/atguigu/spzx/utils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/brandMapper" />
+      <recent name="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/menu" />
+      <recent name="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/SysMenu" />
+      <recent name="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/UserUse" />
       <recent name="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper" />
-      <recent name="$PROJECT_DIR$/spzx-manager/src/main/resources/mapper/role" />
-      <recent name="$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager" />
-      <recent name="$PROJECT_DIR$/spzx-manager/src/main/java" />
-      <recent name="$PROJECT_DIR$/spzx-manager/src/main/resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+      <recent name="com.atguigu.spzx.manager.listener" />
       <recent name="com.atguigu.spzx.manager.controller" />
       <recent name="com.atguigu.spzx.manager.interceptor" />
     </key>
@@ -129,7 +138,14 @@
       </set>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.ManagerApplication">
+    <configuration name="EasyExcelTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="EasyExcelTest" />
+      <module name="spzx-manager" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ManagerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <option name="ACTIVE_PROFILES" />
       <module name="spzx-manager" />
@@ -145,6 +161,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.EasyExcelTest" />
+      <item itemvalue="Spring Boot.ManagerApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.EasyExcelTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -158,7 +183,8 @@
       <workItem from="1703485213501" duration="10578000" />
       <workItem from="1703500902291" duration="5842000" />
       <workItem from="1703552784060" duration="1984000" />
-      <workItem from="1703554916381" duration="87520000" />
+      <workItem from="1703554916381" duration="143728000" />
+      <workItem from="1704243744750" duration="7997000" />
     </task>
     <servers />
   </component>
@@ -175,5 +201,26 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/controller/SysMenuController.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/listener/ExcelListener.java</url>
+          <line>127</line>
+          <option name="timeStamp" value="94" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/spzx-manager/src/main/java/com/atguigu/spzx/manager/interceptor/LoginAuthInterceptor.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="99" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

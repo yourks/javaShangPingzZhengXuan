@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.manager.mapper.CategoryMapper">
+
+    <resultMap id="CategoryMap" type="com.atguigu.spzx.model.entity.product.Category" autoMapping="true"></resultMap>
+<!--    @Schema(description = "分类名称")-->
+<!--    private String name;-->
+
+<!--    @Schema(description = "分类图片url")-->
+<!--    private String imageUrl;-->
+
+<!--    @Schema(description = "父节点id")-->
+<!--    private Long parentId;-->
+
+<!--    @Schema(description = "分类状态: 是否显示[0-不显示，1显示]")-->
+<!--    private Integer status;-->
+
+<!--    @Schema(description = "排序字段")-->
+<!--    private Integer orderNum;-->
+
+<!--    @Schema(description = "唯一标识")-->
+<!--    private Long id;-->
+
+<!--    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")-->
+<!--    @Schema(description = "创建时间")-->
+<!--    private Date createTime;-->
+
+<!--    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")-->
+<!--    @Schema(description = "修改时间")-->
+<!--    private Date updateTime;-->
+
+<!--    @Schema(description = "是否删除")-->
+<!--    private Integer isDeleted;-->
+
+    <!--    @Schema(description = "是否存在子节点")-->
+    <!--    private Boolean hasChildren;-->
+
+    <!--    @Schema(description = "子节点List集合")-->
+    <!--    private List<Category> children;-->
+
+    <sql id="columns">
+        id,name,image_url imageUrl,parent_id parentId,status,order_num orderNum,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+
+
+    <!--    findByParentId-->
+
+    <select id="findByParentId" resultMap="CategoryMap">
+        select <include refid="columns"/>
+        from category
+        WHERE parent_id = #{parentId}
+        order by id desc
+    </select>
+<!--    int findByIdIsParentId(Long id);-->
+    <select id="findByIdIsParentId" resultType="long">
+        select COUNT(*) from category where parent_id = #{ id };
+    </select>
+
+<!--    int insertList( List<CategoryExcelVo> cachedDataList);-->
+<!--    <insert id="insertList" >-->
+<!--        insert into teacher(s_id,s_name) values(#{sId},#{sName});-->
+<!--    </insert>-->
+<!--    name,image_url imageUrl,parent_id parentId,status,order_num orderNum,create_time createTime,update_time updateTime,is_deleted isDeleted-->
+<!--    <insert id="insertList" >-->
+<!--        insert into category(name,image_url,parent_id,status,order_num,create_time,update_time,is_deleted) values-->
+<!--        <foreach collection="ids" separator="," item="categoryModel">-->
+<!--            (#{categoryModel.name},#{categoryModel.imageUrl},#{categoryModel.parentId},#{categoryModel.status}-->
+<!--            ,#{categoryModel.orderNum},now(),now(),0)-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+    <insert id="insertList">
+        insert into category(
+        id,
+        name,
+        image_url,
+        parent_id,
+        status,
+        order_num,
+        create_time ,
+        update_time ,
+        is_deleted
+        ) values
+        <foreach collection="cachedDataList" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.name},
+            #{item.imageUrl},
+            #{item.parentId},
+            #{item.status},
+            #{item.orderNum},
+            now(),
+            now(),
+            0
+            )
+        </foreach>
+    </insert>
+
+    <select id="findAll" resultMap="CategoryMap">
+        select <include refid="columns"/>
+        from category
+        where is_deleted = 0
+        order by id desc
+    </select>
+
+
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.manager.mapper.SysMenuMapper">
+
+
+    <resultMap id="sysMenuMapper" type="com.atguigu.spzx.model.entity.system.SysMenu" autoMapping="true"></resultMap>
+    <sql id="columns">
+        id,parent_id,title,component,sort_value,status,create_time,update_time,is_deleted
+    </sql>
+
+    <select id="findAllSysMenu" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        select <include refid="columns"/>
+        from sys_menu
+        where is_deleted=0
+        order by sort_value desc
+    </select>
+
+<!--    id,parent_id,component,sort_value,status,create_time,update_time,is_deleted-->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_menu(
+        id,
+        parent_id,
+        title,
+        component,
+        sort_value,
+        status
+        ) values (
+        #{id},#{parentId},#{title},#{component},#{sortValue},#{status}
+        )
+    </insert>
+
+    <update id="updateById" >
+        update sys_menu set
+        <if test="title != null and title != ''">
+            title = #{ title },
+        </if>
+        <if test="component != null and component != ''">
+            component = #{ component },
+        </if>
+        <if test="sortValue != null and sortValue != ''">
+            sort_Value = #{ sortValue },
+        </if>
+        <if test="status != null and status != ''">
+            status = #{ status },
+        </if>
+        update_time = now()
+        where id = #{ id };
+    </update>
+
+    <update id="removeById" >
+        update sys_menu set is_deleted = 1 where id = #{ id };
+    </update>
+
+    <select id="selectedChildWithId" resultType="long">
+        select count(*) from sys_menu where parent_id = #{ id } and is_deleted = 0;
+    </select>
+<!--    List<SysMenu> findSysMenuByUserId(Long userId);-->
+
+    <select id="findSysMenuByUserId" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        SELECT DISTINCT sys_menu.* FROM sys_menu
+        LEFT JOIN sys_role_menu ON sys_menu.id = sys_role_menu.menu_id
+        LEFT JOIN sys_user_role ON sys_user_role.role_id = sys_role_menu.role_id
+        WHERE sys_user_role.user_id = #{userId} AND sys_menu.is_deleted = 0
+    </select>
+
+<!--    selectedParentWithId-->
+    <select id="selectedParentWithId" resultMap="sysMenuMapper">
+        select <include refid="columns" /> from sys_menu where id = #{parentId}
+    </select>
+</mapper>

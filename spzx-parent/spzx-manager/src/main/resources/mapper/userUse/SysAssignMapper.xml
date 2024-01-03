@@ -14,7 +14,11 @@
 
 
     <select id="findAllRoles" resultType="long">
-        select role_id from sys_user_role where user_id = #{ user_id };
+        select role_id from sys_user_role where user_id = #{ user_id } and is_deleted = 0;
     </select>
+
+    <update id="deleteUseUserAllRole" >
+        update sys_user_role set is_deleted = 1 where user_id = #{ user_id };
+    </update>
 
 </mapper>

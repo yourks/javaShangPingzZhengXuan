@@ -17,4 +17,6 @@ public interface SysAssignMapper {
 
     List<Long> findAllRoles(Long user_id);
 
+    int deleteUseUserAllRole(Long user_id);
+
 }

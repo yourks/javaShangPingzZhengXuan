@@ -8,6 +8,7 @@ import com.atguigu.spzx.manager.service.SysRoleService;
 import com.atguigu.spzx.model.dto.system.AssginRoleDto;
 import com.atguigu.spzx.model.entity.system.SysRole;
 import com.atguigu.spzx.model.entity.system.SysRoleUser;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +31,18 @@ public class SysAssignServiceImpl implements SysAssignService {
     private SysRoleMapper sysRoleMapper;
 
     /**
-     这里应该哦是事务提交才对
-     * */
+     这里应该哦是事务提交才对 代码里面有开启 估计是没录
+     @Log(title = "用户分配角色",businessType = 0)
+      * */
+    @Transactional
     @Override
     public int doAssign(AssginRoleDto assginRoleDto) {
+        /**
+         1.移除分配的所有角色  用户可能没有分配角色 所以row 可能为0 无用
+         * */
+        int rows = sysAssignMapper.deleteUseUserAllRole(assginRoleDto.getUserId());
+        System.out.println("rows"+rows);
+
         int srow = 0;
         for (int i = 0 ;i<assginRoleDto.getRoleIdList().size();i++){
             List<Long> list =  assginRoleDto.getRoleIdList();

@@ -1,6 +1,7 @@
 package com.atguigu.spzx.manager.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.atguigu.spzx.manager.service.SysMenuService;
 import com.atguigu.spzx.manager.service.SysUserService;
 import com.atguigu.spzx.manager.service.ValidateCodeService;
 import com.atguigu.spzx.model.dto.system.LoginDto;
@@ -18,6 +19,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * className:{IndexController}
  */
@@ -29,6 +32,8 @@ public class IndexController {
     @Autowired
     private SysUserService sysUserService;
 
+    @Autowired
+    private SysMenuService sysMenuService;
     /**
      图片验证码
      * */
@@ -102,5 +107,16 @@ public class IndexController {
         return Result.build(null , ResultCodeEnum.SUCCESS) ;
     }
 
+
+    /**
+     动态菜单
+     /menus
+     */
+    @GetMapping("/menus")
+    public Result menus(){
+
+        List list = sysMenuService.menus();
+        return Result.build(list,ResultCodeEnum.SUCCESS);
+    }
 
 }
