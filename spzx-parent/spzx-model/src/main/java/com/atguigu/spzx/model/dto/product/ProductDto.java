@@ -20,4 +20,8 @@ public class ProductDto extends BaseEntity {
     @Schema(description = "三级分类id")
     private Long category3Id;
 
+    @Schema(description = "每页几条")
+    private Long limit;
+    @Schema(description = "页数")
+    private Long page;
 }

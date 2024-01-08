@@ -1,5 +1,7 @@
 package com.atguigu.spzx.manager.controller;
 
+import com.atguigu.spzx.common.log.annotation.Log;
+import com.atguigu.spzx.common.log.enums.OperatorType;
 import com.atguigu.spzx.manager.service.SysAssignService;
 import com.atguigu.spzx.manager.service.SysRoleService;
 import com.atguigu.spzx.model.dto.system.SysRoleDto;
@@ -8,6 +10,7 @@ import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,6 +47,7 @@ public class SysRoleController {
         return Result.build(pageInfo,ResultCodeEnum.SUCCESS);
     }
 
+    @Log(title = "角色管理:添加",businessType = 1)
     @PostMapping(value = "/saveSysRole")
     public Result saveSysRole(@RequestBody SysRole sysRole) {
         int row = sysRoleService.saveSysRole(sysRole) ;
@@ -54,6 +58,7 @@ public class SysRoleController {
         }
     }
 
+    @Log(title = "角色更新",businessType = 2,operatorType = OperatorType.MANAGE)
     @PostMapping(value = "/updateSysRole")
     public Result updateSysRole(@RequestBody SysRole sysRole) {
         int row = sysRoleService.updateSysRole(sysRole) ;
@@ -74,10 +79,10 @@ public class SysRoleController {
         }
     }
 
+
     @GetMapping(value = "/findAllRoles/{userId}")
     public Result findAllRoles(@PathVariable(value = "userId") Long userId) {
         Map map = sysAssignService.findAllRoles(userId);
         return Result.build(map , ResultCodeEnum.SUCCESS) ;
     }
-
 }

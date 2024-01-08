@@ -92,4 +92,13 @@
         where id = #{ id };
     </update>
 
+    <select id="findBrandByCategoryId" resultMap="CategoryBrandMap">
+        select brand.*,brand.name brandName
+        from category_brand
+        LEFT JOIN brand ON category_brand.brand_id = brand.id
+        WHERE category_brand.is_deleted = 0
+        AND category_brand.category_id = #{categoryId}
+        order by id desc
+    </select>
+
 </mapper>

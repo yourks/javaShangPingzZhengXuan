@@ -57,4 +57,9 @@
         update brand set is_deleted = 1,update_time = now()
         where id = #{ id };
     </update>
+
+<!--    List<Brand> findBrandByCategoryId(String categoryId);  多表查询 返回 品牌的所有信息-->
+
+
+
 </mapper>

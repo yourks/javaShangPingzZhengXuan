@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 /**
- * className:{BrandController}
+ * 品牌
  */
 @RestController
 @RequestMapping("/admin/product/brand")

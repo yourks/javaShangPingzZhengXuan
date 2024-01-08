@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.manager.mapper.ProductMapper">
+
+<!--    @Schema(description = "商品名称")-->
+<!--    private String name;					// 商品名称-->
+
+<!--    @Schema(description = "品牌id")-->
+<!--    private Long brandId;					// 品牌ID-->
+
+<!--    @Schema(description = "一级分类id")-->
+<!--    private Long category1Id;				// 一级分类id-->
+
+<!--    @Schema(description = "二级分类id")-->
+<!--    private Long category2Id;				// 二级分类id-->
+
+<!--    @Schema(description = "三级分类id")-->
+<!--    private Long category3Id;				// 三级分类id-->
+
+<!--    @Schema(description = "计量单位")-->
+<!--    private String unitName;				// 计量单位-->
+
+<!--    @Schema(description = "轮播图url")-->
+<!--    private String sliderUrls;				// 轮播图-->
+
+<!--    @Schema(description = "商品规格值json串")-->
+<!--    private String specValue;				// 商品规格值json串-->
+
+<!--    @Schema(description = "线上状态：0-初始值，1-上架，-1-自主下架")-->
+<!--    private Integer status;					// 线上状态：0-初始值，1-上架，-1-自主下架-->
+
+<!--    @Schema(description = "审核状态")-->
+<!--    private Integer auditStatus;			// 审核状态-->
+
+<!--    @Schema(description = "审核信息")-->
+<!--    private String auditMessage;			// 审核信息-->
+
+<!--    // 扩展的属性，用来封装响应的数据-->
+<!--    @Schema(description = "品牌名称")-->
+<!--    private String brandName;				// 品牌-->
+
+<!--    @Schema(description = "一级分类名称")-->
+<!--    private String category1Name;			// 一级分类-->
+
+<!--    @Schema(description = "二级分类名称")-->
+<!--    private String category2Name;			// 二级分类-->
+
+<!--    @Schema(description = "三级分类名称")-->
+<!--    private String category3Name;			// 三级分类-->
+
+<!--    @Schema(description = "sku列表集合")-->
+<!--    private List<ProductSku> productSkuList;		// sku列表集合-->
+
+<!--    @Schema(description = "图片详情列表")-->
+<!--    private String detailsImageUrls;-->
+
+    <resultMap id="productMap" type="com.atguigu.spzx.model.entity.product.Product" autoMapping="true"></resultMap>
+    <sql id="columns">
+        id,name,brand_id brandId,category1_id category1Id,category2_id category2Id,category3_id category3Id
+        ,unit_name unitName,slider_urls sliderUrls,spec_value specValue,status,audit_status auditStatus
+        ,audit_message auditMessage
+        ,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+<!--    @Schema(description = "品牌id")-->
+<!--    private Long brandId;-->
+
+<!--    @Schema(description = "一级分类id")-->
+<!--    private Long category1Id;-->
+
+<!--    @Schema(description = "二级分类id")-->
+<!--    private Long category2Id;-->
+
+<!--    @Schema(description = "三级分类id")-->
+<!--    private Long category3Id;-->
+<!--    List<Product> findByPage(String page, String limit);-->
+
+
+    <sql id="findByPageDiction" >
+        <where>
+            <if test="brandId != null and brandId != ''">
+                and product.brand_id #{brandId}
+            </if>
+            <if test="category1Id != null and category1Id != ''">
+                and product.category1_id #{category1Id}
+            </if>
+            <if test="category2Id != null and category2Id != ''">
+                and product.category2_id #{category2Id}
+            </if>
+            <if test="category3Id != null and category3Id != ''">
+                and product.category3_id #{category3Id}
+            </if>
+            and product.is_deleted=0
+        </where>
+
+    </sql>
+
+<!--     要返回的数据 有 id, name , brand_id , category1_id , category2_id , category3_id, unit_name,slider_urls
+        , spec_value , status , audit_status , audit_message , create_time , update_time ,is_deleted ,
+            brandName , category1Name ,  category2Name , category3Name
+
+                    id,name,brand_id brandId,category1_id category1Id,category2_id category2Id,category3_id category3Id
+        ,unit_name unitName,slider_urls sliderUrls,spec_value specValue,status,audit_status auditStatus
+        ,audit_message auditMessage
+        ,create_time createTime,update_time updateTime,is_deleted isDeleted
+-->
+    <select id="findByPage" resultMap="productMap">
+        SELECT product.id,product.name,product.brand_id ,product.category1_id,product.category2_id,
+        product.category3_id,product.unit_name,product.slider_urls,product.spec_value,
+        product.status,product.audit_status,product.audit_message,product.create_time,product.update_time,
+        product.is_deleted,
+        brand.name brandName,c1.name category1Name,c2.name category2Name,c3.name category3Name
+        FROM product
+        LEFT JOIN brand ON brand.id = product.brand_id
+        LEFT JOIN category c1 ON c1.id = product.category1_id
+        LEFT JOIN category c2 ON c2.id = product.category2_id
+        LEFT JOIN category c3 ON c3.id = product.category3_id
+        <include refid="findByPageDiction"/>
+    </select>
+
+
+<!--    int save(Product product);-->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into product (
+        id,
+        name,
+        brand_id,
+        category1_id,
+        category2_id,
+        category3_id,
+        unit_name,
+        slider_urls,
+        spec_value,
+        status,
+        audit_status,
+        audit_message,
+        create_time,
+        update_time,
+        is_deleted
+        ) values (
+        #{id},
+        #{name},
+        #{brandId},
+        #{category1Id},
+        #{category2Id},
+        #{category3Id},
+        #{unitName},
+        #{sliderUrls},
+        #{specValue},
+        #{status},
+        #{auditStatus},
+        #{auditMessage},
+        now(),
+        now() ,
+        0
+        )
+    </insert>
+
+
+<!--    Product selectById(String id);-->
+    <select id="selectById" resultMap="productMap">
+        select <include refid="columns"/> from product where id = #{ id };
+    </select>
+
+<!--    int updateById(Product product);-->
+    <update id="updateById" >
+        update product set
+        <if test="name != null and name != ''">
+            name = #{name},
+        </if>
+        <if test="brandId != null and brandId != ''">
+            brand_id = #{brandId},
+        </if>
+        <if test="category1Id != null and category1Id != ''">
+            category1_id = #{category1Id},
+        </if>
+        <if test="category2Id != null and category2Id != ''">
+            category2_id = #{category2Id},
+        </if>
+        <if test="category3Id != null and category3Id != ''">
+            category3_id = #{category3Id},
+        </if>
+        <if test="unitName != null and unitName != ''">
+            unit_name = #{unitName},
+        </if>
+        <if test="sliderUrls != null and sliderUrls != ''">
+            slider_urls = #{sliderUrls},
+        </if>
+        <if test="specValue != null and specValue != ''">
+            spec_value = #{specValue},
+        </if>
+        <if test="status != null and status != ''">
+            status = #{status},
+        </if>
+        <if test="auditStatus != null and auditStatus != ''">
+            audit_status = #{auditStatus},
+        </if>
+        <if test="auditMessage != null and auditMessage != ''">
+            audit_message = #{auditMessage},
+        </if>
+        update_time = now()
+        where 
+        id = #{ id };
+    </update>
+
+<!--    int deleteById(String id);-->
+    <update id="deleteById" >
+        update product set is_deleted = 1 where id = #{ id };
+    </update>
+
+
+<!--    int updateAuditStatusById(String productId, String auditStatus, String auditMessage);-->
+    <update id="updateAuditStatusById" >
+        update product set audit_status = #{ auditStatus },audit_message = #{ auditMessage } where id = #{ productId };
+    </update>
+
+<!--    int updateStatusById(String id, String status);-->
+    <update id="updateStatusById" >
+        update product set status = #{ status } where id = #{ id };
+    </update>
+
+</mapper>

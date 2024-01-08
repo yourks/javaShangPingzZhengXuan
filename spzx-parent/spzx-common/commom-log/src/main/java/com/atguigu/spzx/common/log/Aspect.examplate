@@ -1,0 +1,180 @@
+/**
+1.环绕切面环境类
+2.前置  后置 返回 异常 切面环境类
+3.切点表达式的提取和复用类
+
+*/
+
+/**
+1.环绕切面环境类
+ */
+@Component
+@Aspect
+public class AroundAspect {
+
+    /**
+     环绕切面环境类 不能和 前置  后置 返回 异常共用
+     value = 切点表达式 现在 是把 切点表达式放到一个PointCut 类的pcForService方法的返回值里面了
+     */
+    @Around(value = "com.atguigu.pointcut.PointCut.pcForService()")
+    public Object methodAround(ProceedingJoinPoint joinPoint){
+        /**
+         // 1.通过JoinPoint对象获取目标方法签名对象
+         // 方法的签名：一个方法的全部声明信息
+         */
+
+        Signature signature = joinPoint.getSignature();
+        System.out.println("signature = " + signature);
+
+        /**
+         // 2.通过方法的签名对象获取目标方法的详细信息
+         //方法名
+         */
+        String methodName = signature.getName();
+        System.out.println("methodName = " + methodName);
+
+        /**
+         //权限信息
+         */
+        int modifiers = signature.getModifiers();
+        System.out.println("modifiers = " + modifiers);
+
+        String declaringTypeName = signature.getDeclaringTypeName();
+        System.out.println("declaringTypeName = " + declaringTypeName);
+        Class getDeclaringType = signature.getDeclaringType();
+        System.out.println("getDeclaringType = " + getDeclaringType);
+
+        /**
+         // 3.通过JoinPoint对象获取外界调用目标方法时传入的实参列表
+         //参数
+         */
+        Object[] args = joinPoint.getArgs();
+
+        /**
+         // 4.由于数组直接打印看不到具体数据，所以转换为List集合
+         */
+        List<Object> argList = Arrays.asList(args);
+        System.out.println("argList = " + argList);
+
+
+        /**
+         //保证目标方法被执行即可
+         //增强代码 -> before
+         //[AOP前置通知] [AOP返回通知] [AOP异常通知] [AOP最后通知]
+         */
+        Object result = null;
+        try {
+            System.out.println("[AOP前置通知] " + methodName + "方法开始了，参数列表：" + argList);
+            result = joinPoint.proceed(args);
+            System.out.println("[AOP返回通知] "+methodName+"方法成功结束了，返回值是：" + result);
+        } catch (Throwable e) {
+            System.out.println("[AOP异常通知] "+methodName+"方法抛异常了，异常类型是：" + e.getClass().getName());
+            throw new RuntimeException(e);
+        }finally {
+            System.out.println("[AOP最后通知] "+methodName);
+        }
+        return result;
+    }
+}
+
+
+
+
+
+/**
+ 2.前置  后置 返回 异常 切面环境类
+ */
+@Aspect
+@Component
+@Order(10)
+public class LogAspect {
+
+    @Before("com.atguigu.pointcut.PointCut.pcForService()")
+    public  void methodBefore(JoinPoint joinPoint){
+        String methodName = joinPoint.getSignature().getName();
+        Object[] args = joinPoint.getArgs();
+        List<Object> argList = Arrays.asList(args);
+        System.out.println("aop spect methodBefore ");
+        System.out.println("[AOP前置通知] " + methodName + "方法开始了，参数列表：" + argList);
+    }
+
+    @AfterReturning(value = "com.atguigu.pointcut.PointCut.pcForService()",
+            returning = "result"
+    )
+    public  void methodAfterReturning(JoinPoint joinPoint, Object result){
+        String methodName = joinPoint.getSignature().getName();
+        System.out.println("[AOP返回通知] "+methodName+"方法成功结束了，返回值是：" + result);
+        System.out.println("aop spect methodAfterReturning ");
+    }
+
+    @AfterThrowing(value = "com.atguigu.pointcut.PointCut.pcForService()",throwing = "targetMethodException")
+    public  void methodAfterThrowing(JoinPoint joinPoint, Throwable targetMethodException){
+        String methodName = joinPoint.getSignature().getName();
+        System.out.println("aop spect methodAfterThrowing ");
+        System.out.println("[AOP异常通知] "+methodName+"方法抛异常了，异常类型是：" + targetMethodException.getClass().getName());
+
+    }
+
+    @After("com.atguigu.pointcut.PointCut.pcForService()")
+    public  void methodAfter(JoinPoint joinPoint){
+        String methodName = joinPoint.getSignature().getName();
+        System.out.println("aop spect methodAfter ");
+        System.out.println("[AOP最后通知] "+methodName);
+    }
+
+//    //不能共用 会报错
+//    @Around("com.atguigu.pointcut.PointCut.pcForService()")
+//    public  void methodAround(){
+//        System.out.println("aop spect methodAround ");
+//    }
+}
+
+/**
+3.切点表达式的提取和复用类
+  切点表达式
+ * [value =] "execution( )"
+ * 1.(* /public int) 方法 返回值
+ * 2.(*.. /com.*../*..service./com.*..service./com.atguigu.service. )位置 ..不能用作包开头
+ * 3.(*./*Impl./Impl*.)类
+ * 4.(*｜*Impl｜Impl*)方法
+ * 5(()/(..)/(..int..)/(String..int)/(..String)/(String..))参数
+ * */
+@Component
+public class PointCut {
+    @Pointcut(value = "execution(* *..*.*.*(..))")
+    public void pcForService(){}
+}
+
+
+
+
+/**
+ * TODO: JavaConfig 配置类中配置 在Spring中
+ * @EnableAspectJAutoProxy
+    在Spring中,如果不在配置类中添加@EnableAspectJAutoProxy,
+    那么所有切面注解是不生效的
+    (springboot因为有自动配置,所以不需要开发人员手工配置@EnableAspectJAutoProxy)
+    @ComponentScan
+    包括扫描
+ * */
+
+ /**
+  * TODO: xml配置 在Spring中
+  *  <?xml version="1.0" encoding="UTF-8"?>
+  * <beans xmlns="http://www.springframework.org/schema/beans"
+  *     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  *     xmlns:context="http://www.springframework.org/schema/context"
+  *     xmlns:aop="http://www.springframework.org/schema/aop"
+  *     xsi:schemaLocation="http://www.springframework.org/schema/beans
+  *     http://www.springframework.org/schema/beans/spring-beans.xsd
+  *     http://www.springframework.org/schema/context
+  *     https://www.springframework.org/schema/context/spring-context.xsd
+  *     http://www.springframework.org/schema/aop
+  *     https://www.springframework.org/schema/aop/spring-aop.xsd">
+  *     <!-- 进行包扫描-->
+  *     <context:component-scan base-package="com.atguigu"/>
+  *
+  *     <!-- 开启aspectj框架注解支持 //开启aspect aop-->
+  *             <aop:aspectj-autoproxy/>
+  * </beans>
+  */

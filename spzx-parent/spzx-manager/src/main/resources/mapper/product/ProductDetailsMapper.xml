@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.manager.mapper.ProductDetailsMapper">
+
+    <resultMap id="ProductDetailsMap" type="com.atguigu.spzx.model.entity.product.ProductDetails" autoMapping="true"></resultMap>
+    <sql id="columns">
+        id,product_id productId,image_urls imageUrls
+        ,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+
+<!--    int save(ProductDetails productDetails);-->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into product_details (
+        id,
+        product_id,
+        image_urls,
+        create_time,update_time,is_deleted
+        ) values (
+        #{id},
+        #{productId},
+        #{imageUrls},
+        now(),
+        now(),
+        0
+        )
+    </insert>
+
+
+<!--    List<ProductDetails> selectByPorductId(String id);-->
+    <select id="selectByPorductId" resultMap="ProductDetailsMap">
+        select <include refid="columns"/> from product_details where product_id = #{ id };
+    </select>
+
+<!--    int updateById(String productId, String detailsImageUrls);-->
+    <update id="updateById" >
+        update product_details set
+        <if test="detailsImageUrls != null and detailsImageUrls != ''">
+            image_urls = #{ detailsImageUrls },
+        </if>
+        update_time = now()
+        where
+        product_id = #{ productId };
+    </update>
+
+<!--    int updateById(ProductDetails productDetails);-->
+<!--    <update id="updateById" >-->
+<!--        update product_details set-->
+<!--        <if test="productId != null and productId != ''">-->
+<!--            product_id = #{productId},-->
+<!--        </if>-->
+<!--        <if test="imageUrls != null and imageUrls != ''">-->
+<!--            image_urls = #{imageUrls},-->
+<!--        </if>-->
+<!--        update_time =  now()-->
+<!--        where-->
+<!--        id = #{id}-->
+<!--    </update>-->
+
+    <!--    int deleteById(String productId);-->
+    <update id="deleteById" >
+        update product_details set is_deleted = 1 where product_id = #{ productId };
+    </update>
+
+</mapper>

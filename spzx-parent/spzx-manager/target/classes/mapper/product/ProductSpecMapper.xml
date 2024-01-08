@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.manager.mapper.ProductSpecMapper">
+
+<!--    @Schema(description = "唯一标识")-->
+<!--    private Long id;-->
+
+<!--    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")-->
+<!--    @Schema(description = "创建时间")-->
+<!--    private Date createTime;-->
+
+<!--    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")-->
+<!--    @Schema(description = "修改时间")-->
+<!--    private Date updateTime;-->
+
+<!--    @Schema(description = "是否删除")-->
+<!--    private Integer isDeleted;-->
+<!--    @Schema(description = "规格名称")-->
+<!--    private String specName;   // 规格名称-->
+
+<!--    @Schema(description = "规格值")-->
+<!--    private String specValue;  // 规格值-->
+    <resultMap id="productSpecMap" type="com.atguigu.spzx.model.entity.product.ProductSpec" autoMapping="true"></resultMap>
+    <sql id="columns">
+        id,spec_name specName,spec_value specValue,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+<!--    List<ProductSpec> findByPage();-->
+    <select id="findByPage" resultMap="productSpecMap">
+        select <include refid="columns"/> from product_spec where is_deleted = 0
+    </select>
+
+<!--    int insert(ProductSpec productSpec);-->
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into product_spec(
+        spec_name
+        ,spec_value
+        ,create_time
+        ,update_time
+        ,is_deleted
+        ) values(
+        #{specName}
+        ,#{specValue}
+        ,now()
+        ,now()
+        ,0
+        )
+    </insert>
+
+
+    <!--    int updateById(ProductSpec productSpec);-->
+    <update id="updateById" >
+        update product_spec set
+        <if test="specName != null and specName != ''">
+            spec_name = #{ specName },
+        </if>
+        <if test="specValue != null and specValue != ''">
+            spec_value = #{ specValue },
+        </if>
+        create_time = now()
+        where id = #{ id }
+    </update>
+
+<!--    int deleteById(Integer id);-->
+    <update id="deleteById" >
+        update product_spec set is_deleted = 1 where id = #{ id }
+    </update>
+
+
+    <select id="findAll" resultMap="productSpecMap">
+        select <include refid="columns"/> from product_spec
+    </select>
+
+
+</mapper>

@@ -1,0 +1,87 @@
+/**
+ 1.自定义注解                            (本样例中搜索)
+ 2.配置上枚举类                        (本样例中搜索)
+ 3.让自定义注解即使不在同一个包下也能使用  (本样例中搜索)
+ */
+/**
+ 1.自定义注解
+ 创建注解后 需要在注解的上面添加元注解
+ @Target 注解可以写在哪些地方
+ @Retention  注解在什么时候起作用
+ */
+@Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Log {
+
+    /**
+      模块名称
+     * */
+    public String title() ;
+    /**
+      操作人类别
+     * */
+    public OperatorType operatorType() default OperatorType.MANAGE;
+    /**
+      业务类型（0其它 1新增 2修改 3删除）
+     * */
+    public int businessType() ;
+    /**
+      是否保存请求的参数
+     * */
+    public boolean isSaveRequestData() default true;
+    /**
+      是否保存响应的参数
+     * */
+    public boolean isSaveResponseData() default true;
+
+}
+
+
+/**
+  2.配置上枚举类
+ // 操作人类别
+ */
+public enum OperatorType {
+    /**
+     // 其他
+     */
+    OTHER,
+    /**
+     // 后台用户
+     */
+    MANAGE,
+    /**
+     // 手机端用户
+     */
+    MOBILE
+}
+
+
+
+/**
+ 3.让自定义注解即使不在同一个包下也能使用
+
+ 因为 log注解包和manager不是同一个 moudle   程序启动只能扫描到ManagerApplication入口的同级目录 无法扫描到log注解包
+ 扫描规则是当前包 及其子包
+ 所以需要EnableLogAspect 放到
+ 到manager pom.xml内 引入
+ 1.编写  引入 元注解 @Target @Retention
+        再引入 @Import(value = LogAspect.class)通过Import注解导入日志切面类到Spring容器中
+
+ 2.pom.xml内 引入
+ <!-- 自己创建的日志包-->
+ <dependency>
+ <groupId>com.atguigu</groupId>
+ <artifactId>commom-log</artifactId>
+ <version>1.0-SNAPSHOT</version>
+ </dependency>
+
+ 3.ManagerApplication 中添加
+
+ */
+
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Import(value = LogAspect.class)
+public @interface EnableLogAspect {
+}

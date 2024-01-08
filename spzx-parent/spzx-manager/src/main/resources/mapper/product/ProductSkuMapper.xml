@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.manager.mapper.ProductSkuMapper">
+
+
+<!--    @Schema(description = "商品编号")-->
+<!--    private String skuCode;-->
+
+<!--    @Schema(description = "skuName")-->
+<!--    private String skuName;-->
+
+<!--    @Schema(description = "商品ID")-->
+<!--    private Long productId;-->
+
+<!--    @Schema(description = "缩略图路径")-->
+<!--    private String thumbImg;-->
+
+<!--    @Schema(description = "售价")-->
+<!--    private BigDecimal salePrice;-->
+
+<!--    @Schema(description = "市场价")-->
+<!--    private BigDecimal marketPrice;-->
+
+<!--    @Schema(description = "成本价")-->
+<!--    private BigDecimal costPrice;-->
+
+<!--    @Schema(description = "库存数")-->
+<!--    private Integer stockNum;-->
+
+<!--    @Schema(description = "销量")-->
+<!--    private Integer saleNum;-->
+
+<!--    @Schema(description = "sku规格信息json")-->
+<!--    private String skuSpec;-->
+
+<!--    @Schema(description = "重量")-->
+<!--    private String weight;-->
+
+<!--    @Schema(description = "体积")-->
+<!--    private String volume;-->
+
+<!--    @Schema(description = "线上状态：0-初始值，1-上架，-1-自主下架")-->
+<!--    private Integer status;-->
+
+    <resultMap id="ProductSkuMap" type="com.atguigu.spzx.model.entity.product.ProductSku" autoMapping="true"></resultMap>
+    <sql id="columns">
+        id,sku_code skuCode,sku_name skuName,product_id productId,thumb_img thumbImg
+        ,sale_price salePrice,market_price marketPrice,cost_price costPrice,stock_num stockNum
+        ,sale_num saleNum,sku_spec skuSpec,weight,volume,status
+        ,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+
+<!--    int save(ProductSku productSku);-->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into product_sku (
+        id,
+        sku_code,
+        sku_name,
+        product_id,
+        thumb_img,
+        sale_price,
+        market_price,
+        cost_price,
+        stock_num,
+        sku_spec,
+        weight,
+        volume,
+        status,
+        sale_num,
+        create_time,
+        update_time,
+        is_deleted
+        ) values (
+        #{id},
+        #{skuCode},
+        #{skuName},
+        #{productId},
+        #{thumbImg},
+        #{salePrice},
+        #{marketPrice},
+        #{costPrice},
+        #{stockNum},
+        #{skuSpec},
+        #{weight},
+        #{volume},
+        #{status},
+        #{saleNum},
+        now(),
+        now(),
+        0
+        )
+    </insert>
+
+
+<!--    List<ProductSku> selectByPorductId(String id);-->
+    <select id="selectByPorductId" resultMap="ProductSkuMap">
+        select <include refid="columns"/> from product_sku where product_id = #{ id };
+    </select>
+
+<!--    int updateById(ProductSku productSku);-->
+    <update id="updateById" >
+        update product_sku set
+        <if test="skuCode != null and skuCode != ''">
+            sku_code = #{skuCode},
+        </if>
+        <if test="skuName != null and skuName != ''">
+            sku_name = #{skuName},
+        </if>
+        <if test="productId != null and productId != ''">
+            product_id = #{productId},
+        </if>
+        <if test="thumbImg != null and thumbImg != ''">
+            thumb_img = #{thumbImg},
+        </if>
+        <if test="salePrice != null and salePrice != ''">
+            sale_price = #{salePrice},
+        </if>
+        <if test="marketPrice != null and marketPrice != ''">
+            market_price = #{marketPrice},
+        </if>
+        <if test="costPrice != null and costPrice != ''">
+            cost_price = #{costPrice},
+        </if>
+        <if test="stockNum != null and stockNum != ''">
+            stock_num = #{stockNum},
+        </if>
+        <if test="skuSpec != null and skuSpec != ''">
+            sku_spec = #{skuSpec},
+        </if>
+        <if test="weight != null and weight != ''">
+            weight = #{weight},
+        </if>
+        <if test="volume != null and volume != ''">
+            volume = #{volume},
+        </if>
+        <if test="status != null and status != ''">
+            status = #{status},
+        </if>
+        update_time = now()
+        where
+        id = #{ id };
+    </update>
+
+<!--    int deleteById(String productId);-->
+    <update id="deleteById" >
+        update product_sku set is_deleted = 1 where product_id = #{ productId };
+    </update>
+</mapper>

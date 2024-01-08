@@ -14,8 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Collection;
 import java.util.List;
 
+
 /**
- * className:{CategoryController}
+ * 分类
  */
 @RestController
 @RequestMapping("/admin/product/category")

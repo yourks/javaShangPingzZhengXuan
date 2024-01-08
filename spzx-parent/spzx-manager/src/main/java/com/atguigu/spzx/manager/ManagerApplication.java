@@ -1,5 +1,6 @@
 package com.atguigu.spzx.manager;
 
+import com.atguigu.spzx.common.log.annotation.EnableLogAspect;
 import com.atguigu.spzx.manager.properties.MinioProperties;
 import com.atguigu.spzx.manager.properties.UserProperties;
 import org.mybatis.spring.annotation.MapperScan;
@@ -7,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 /**
@@ -18,10 +20,12 @@ import org.springframework.context.annotation.ComponentScan;
 
  5.@MapperScan("com.atguigu.mapper") mapper接口所在的的位置！
  */
+@EnableScheduling
 @SpringBootApplication
 @MapperScan("com.atguigu.spzx.manager.mapper")
 @ComponentScan(basePackages = {"com.atguigu.spzx"})
 @EnableConfigurationProperties(value = {UserProperties.class, MinioProperties.class})
+@EnableLogAspect
 public class ManagerApplication {
     public static void main(String[] args) {
         /**

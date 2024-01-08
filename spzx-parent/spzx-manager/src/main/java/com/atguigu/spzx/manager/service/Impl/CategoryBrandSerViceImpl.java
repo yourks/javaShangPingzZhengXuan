@@ -3,6 +3,7 @@ package com.atguigu.spzx.manager.service.Impl;
 import com.atguigu.spzx.manager.mapper.CategoryBrandMapper;
 import com.atguigu.spzx.manager.service.CategoryBrandSerVice;
 import com.atguigu.spzx.model.dto.product.CategoryBrandDto;
+import com.atguigu.spzx.model.entity.product.Brand;
 import com.atguigu.spzx.model.entity.product.CategoryBrand;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -30,13 +31,13 @@ public class CategoryBrandSerViceImpl implements CategoryBrandSerVice {
         return pageInfo;
     }
 
+
     @Override
     public int save(CategoryBrand categoryBrand) {
         int row = categoryBrandMapper.insert(categoryBrand);
         return row;
     }
 
-//    int updateById(CategoryBrand categoryBrand);
 
     @Override
     public int updateById(CategoryBrand categoryBrand) {
@@ -50,5 +51,9 @@ public class CategoryBrandSerViceImpl implements CategoryBrandSerVice {
         return row;
     }
 
-
+    @Override
+    public List<Brand> findBrandByCategoryId(String categoryId) {
+        List<Brand> list = categoryBrandMapper.findBrandByCategoryId(categoryId);
+        return list;
+    }
 }

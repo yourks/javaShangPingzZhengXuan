@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.manager.mapper.commonLog.AsyncOperLogMapper">
+
+<!--    int saveSysOperLog(SysOperLog sysOperLog);-->
+    <resultMap id="AsyncOperLogMap" type="com.atguigu.spzx.model.entity.system.SysOperLog" autoMapping="true"></resultMap>
+
+    <sql id="columns">
+        id,title,method,request_method requestMethod,operator_type operatorType,oper_name operName,oper_url operUrl,oper_ip operIp
+        ,oper_param operParam,json_result jsonResult,status,error_msg errorMsg
+        ,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+
+    <insert id="saveSysOperLog" >
+        INSERT INTO sys_oper_log(
+        id,
+        title,
+        method,
+        request_method,
+        operator_type,
+        oper_name,
+        oper_url,
+        oper_ip,
+        oper_param,
+        json_result,
+        status,
+        error_msg,
+        create_time,
+        update_time,
+        is_deleted,
+        ) VALUES(
+        #{id},
+        #{title},
+        #{method},
+        #{requestMethod},
+        #{operName},
+        #{operUrl},
+        #{operIp},
+        #{operParam},
+        #{jsonResult},
+        #{status},
+        #{errorMsg},
+        #{createTime},
+        #{updateTime},
+        #{isDeleted},
+        );
+    </insert>
+</mapper>

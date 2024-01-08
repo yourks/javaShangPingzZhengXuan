@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atguigu.spzx.manager.mapper.OrderStatisticsMapper">
+
+<!--    private Date orderDate;-->
+<!--    private BigDecimal totalAmount;-->
+<!--    private Integer totalNum;-->
+<!--    int save(OrderStatistics orderStatistics); com.atguigu.spzx.model.entity.order.OrderStatistics-->
+    <insert id="save" >
+        insert into order_statistics(
+        order_date,total_amount,total_num,create_time,update_time,is_deleted
+        ) values(
+        #{orderDate},#{totalAmount},#{totalNum},now(),now(),0
+        )
+    </insert>
+
+<!--    List<OrderStatistics> selectedWithCreatDate(OrderStatisticsDto orderStatisticsDto);-->
+<!--    @Schema(description = "开始时间")-->
+<!--    private String createTimeBegin;-->
+
+<!--    @Schema(description = "结束时间")-->
+<!--    private String createTimeEnd;-->
+    <select id="selectedWithCreatDate" resultType="com.atguigu.spzx.model.entity.order.OrderStatistics">
+        select
+        order_date orderDate,total_amount totalAmount,total_num totalNum,
+        create_time createTime,update_time updateTime,is_deleted isDeleted
+        from order_statistics where order_date BETWEEN #{ createTimeBegin } AND #{ createTimeEnd }
+    </select>
+
+
+</mapper>
