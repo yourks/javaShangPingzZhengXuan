@@ -1,0 +1,52 @@
+#server:
+#  port: 8511
+#
+#spring:
+#  application:
+#    name: server-product
+#  datasource:
+#    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:mysql://localhost:3306/db_spzx?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+#    username: root
+#    password: a123456
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#
+## mybatis的配置
+#mybatis:
+#  config-location: classpath:/mybatis-config.xml
+#  mapper-locations: classpath:/mapper/*/*.xml
+
+
+
+server:
+  port: 8511
+
+# 配置数据库连接信息
+spring:
+  application:
+    name: service-product
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        server-addr: localhost:8848 #配置中心地址
+        file-extension: yaml #指定yaml格式的配置
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #1。需要虚拟机的地址#      # 第二个项目连的是虚拟机里面的数据库？ 我不是 先试试可不可以
+    #    url: jdbc:mysql://localhost:3306/db_spzx?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/db_spzx?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: a123456
+  data:
+    redis:
+      #1。需要虚拟机的地址
+      host: localhost
+      port: 6379
+
+# mybatis的配置
+mybatis:
+  config-location: classpath:/mybatis-config.xml
+  mapper-locations: classpath:/mapper/*/*.xml

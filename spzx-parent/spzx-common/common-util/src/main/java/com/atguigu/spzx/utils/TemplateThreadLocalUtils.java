@@ -22,7 +22,7 @@ public class TemplateThreadLocalUtils {
     public static final ThreadLocal<UserInfo> userInfoThreadLocal=  new ThreadLocal<>();
 
 
-    /**
+    /** h5端
      // 定义存储数据的静态方法     set
      // 定义获取数据的方法        get
      // 删除数据的方法            remove
@@ -43,7 +43,7 @@ public class TemplateThreadLocalUtils {
      * */
     private static final ThreadLocal<SysUser> threadLocal = new ThreadLocal<>();
 
-    /**
+    /** 后端
      // 定义存储数据的静态方法     set
      // 定义获取数据的方法        get
      // 删除数据的方法            remove

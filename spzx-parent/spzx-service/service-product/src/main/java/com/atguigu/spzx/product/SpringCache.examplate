@@ -1,0 +1,49 @@
+/**
+ 1.pom
+ <!--cache-Spring Cache-->
+ <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-cache</artifactId>
+ </dependency>
+ 2.yaml
+ 3.启动类
+ @EnableCaching
+ 4.配置类RedisConfig
+ import org.springframework.cache.CacheManager;
+ 5.业务
+    @Cacheable 在方法执行前spring先查看缓存中是否有数据，如果有数据，则直接返回缓存数据；若没有数据，调用方法并将方法返回值放到缓存中
+    @CachePut   将方法的返回值放到缓存中
+    @CacheEvict 将一条或多条数据从缓存中删除
+ */
+@Configuration
+public class RedisConfig {
+
+    @Bean
+    public CacheManager cacheManager(LettuceConnectionFactory connectionFactory) {
+
+        //定义序列化器
+        GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
+        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+
+
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
+                //过期时间600秒
+                .entryTtl(Duration.ofSeconds(600))
+                // 配置序列化
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(stringRedisSerializer))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(genericJackson2JsonRedisSerializer));
+
+        RedisCacheManager cacheManager = RedisCacheManager.builder(connectionFactory)
+                .cacheDefaults(config)
+                .build();
+
+        return cacheManager;
+    }
+
+}
+
+
+############# 使用
+#value: 缓存的名称，每个缓存名称下面可以有多个key
+#key: 缓存的key  ----------> 支持Spring的表达式语言SPEL语法
+#     @Cacheable(value = "category",key="'all'")

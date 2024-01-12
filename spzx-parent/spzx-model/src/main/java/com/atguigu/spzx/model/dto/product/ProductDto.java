@@ -24,4 +24,7 @@ public class ProductDto extends BaseEntity {
     private Long limit;
     @Schema(description = "页数")
     private Long page;
+    @Schema(description = "排序")
+    private Long order;
+
 }

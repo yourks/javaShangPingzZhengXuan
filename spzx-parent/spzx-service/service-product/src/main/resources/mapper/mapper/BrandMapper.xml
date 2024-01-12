@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.product.mapper.BrandMapper">
+    <!--    @Schema(description = "品牌名称")-->
+    <!--    private String name;-->
+
+    <!--    @Schema(description = "品牌logo")-->
+    <!--    private String logo;-->
+
+    <!--    @Schema(description = "唯一标识")-->
+    <!--    private Long id;-->
+
+    <!--    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")-->
+    <!--    @Schema(description = "创建时间")-->
+    <!--    private Date createTime;-->
+
+    <!--    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")-->
+    <!--    @Schema(description = "修改时间")-->
+    <!--    private Date updateTime;-->
+
+    <!--    @Schema(description = "是否删除")-->
+    <!--    private Integer isDeleted;-->
+
+    <resultMap id="BrandMap" type="com.atguigu.spzx.model.entity.product.Brand" autoMapping="true"></resultMap>
+
+    <sql id="columns">
+        id,name,logo,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+<!--    List<Brand> selectedAll();-->
+    <select id="selectedAll" resultMap="BrandMap">
+        select <include refid="columns"/>
+        from brand
+        WHERE is_deleted = 0
+        order by id desc
+    </select>
+
+</mapper>

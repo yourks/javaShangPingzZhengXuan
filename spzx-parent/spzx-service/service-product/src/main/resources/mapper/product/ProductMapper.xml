@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.product.mapper.ProductMapper">
+    <!--    @Schema(description = "商品名称")-->
+    <!--    private String name;					// 商品名称-->
+
+    <!--    @Schema(description = "品牌id")-->
+    <!--    private Long brandId;					// 品牌ID-->
+
+    <!--    @Schema(description = "一级分类id")-->
+    <!--    private Long category1Id;				// 一级分类id-->
+
+    <!--    @Schema(description = "二级分类id")-->
+    <!--    private Long category2Id;				// 二级分类id-->
+
+    <!--    @Schema(description = "三级分类id")-->
+    <!--    private Long category3Id;				// 三级分类id-->
+
+    <!--    @Schema(description = "计量单位")-->
+    <!--    private String unitName;				// 计量单位-->
+
+    <!--    @Schema(description = "轮播图url")-->
+    <!--    private String sliderUrls;				// 轮播图-->
+
+    <!--    @Schema(description = "商品规格值json串")-->
+    <!--    private String specValue;				// 商品规格值json串-->
+
+    <!--    @Schema(description = "线上状态：0-初始值，1-上架，-1-自主下架")-->
+    <!--    private Integer status;					// 线上状态：0-初始值，1-上架，-1-自主下架-->
+
+    <!--    @Schema(description = "审核状态")-->
+    <!--    private Integer auditStatus;			// 审核状态-->
+
+    <!--    @Schema(description = "审核信息")-->
+    <!--    private String auditMessage;			// 审核信息-->
+
+    <!--    // 扩展的属性，用来封装响应的数据-->
+    <!--    @Schema(description = "品牌名称")-->
+    <!--    private String brandName;				// 品牌-->
+
+    <!--    @Schema(description = "一级分类名称")-->
+    <!--    private String category1Name;			// 一级分类-->
+
+    <!--    @Schema(description = "二级分类名称")-->
+    <!--    private String category2Name;			// 二级分类-->
+
+    <!--    @Schema(description = "三级分类名称")-->
+    <!--    private String category3Name;			// 三级分类-->
+
+    <!--    @Schema(description = "sku列表集合")-->
+    <!--    private List<ProductSku> productSkuList;		// sku列表集合-->
+
+    <!--    @Schema(description = "图片详情列表")-->
+    <!--    private String detailsImageUrls;-->
+
+    <resultMap id="productMap" type="com.atguigu.spzx.model.entity.product.Product" autoMapping="true"></resultMap>
+    <sql id="columns">
+        id,name,brand_id brandId,category1_id category1Id,category2_id category2Id,category3_id category3Id
+        ,unit_name unitName,slider_urls sliderUrls,spec_value specValue,status,audit_status auditStatus
+        ,audit_message auditMessage
+        ,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+    <!--    @Schema(description = "品牌id")-->
+    <!--    private Long brandId;-->
+
+    <!--    @Schema(description = "一级分类id")-->
+    <!--    private Long category1Id;-->
+
+    <!--    @Schema(description = "二级分类id")-->
+    <!--    private Long category2Id;-->
+
+    <!--    @Schema(description = "三级分类id")-->
+    <!--    private Long category3Id;-->
+
+
+    <select id="selectById" resultMap="productMap">
+        select <include refid="columns"/> from product where id = #{ id } and is_deleted = 0
+    </select>
+
+</mapper>

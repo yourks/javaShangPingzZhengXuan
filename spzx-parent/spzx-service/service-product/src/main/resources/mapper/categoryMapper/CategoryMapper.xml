@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.product.mapper.CategoryMapper">
+    <resultMap id="CategoryMap" type="com.atguigu.spzx.model.entity.product.Category" autoMapping="true"></resultMap>
+    <!--    @Schema(description = "分类名称")-->
+    <!--    private String name;-->
+
+    <!--    @Schema(description = "分类图片url")-->
+    <!--    private String imageUrl;-->
+
+    <!--    @Schema(description = "父节点id")-->
+    <!--    private Long parentId;-->
+
+    <!--    @Schema(description = "分类状态: 是否显示[0-不显示，1显示]")-->
+    <!--    private Integer status;-->
+
+    <!--    @Schema(description = "排序字段")-->
+    <!--    private Integer orderNum;-->
+
+    <!--    @Schema(description = "唯一标识")-->
+    <!--    private Long id;-->
+
+    <!--    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")-->
+    <!--    @Schema(description = "创建时间")-->
+    <!--    private Date createTime;-->
+
+    <!--    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")-->
+    <!--    @Schema(description = "修改时间")-->
+    <!--    private Date updateTime;-->
+
+    <!--    @Schema(description = "是否删除")-->
+    <!--    private Integer isDeleted;-->
+
+    <!--    @Schema(description = "是否存在子节点")-->
+    <!--    private Boolean hasChildren;-->
+
+    <!--    @Schema(description = "子节点List集合")-->
+    <!--    private List<Category> children;-->
+
+    <sql id="columns">
+        id,name,image_url imageUrl,parent_id parentId,status,order_num orderNum,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+
+
+    <!--    List<Category> findByParentId(String parentId);-->
+    <select id="findByParentId" resultMap="CategoryMap">
+        select <include refid="columns"/>
+        from category
+        WHERE parent_id = #{parentId}
+        and is_deleted = 0
+        and status = 1
+        order by order_num
+    </select>
+
+<!--    List<Category> findAll();-->
+    <select id="findAll" resultMap="CategoryMap">
+        select <include refid="columns"/>
+        from category
+        WHERE  is_deleted = 0
+        and status = 1
+        order by order_num
+    </select>
+
+</mapper>

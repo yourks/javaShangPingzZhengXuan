@@ -13,19 +13,24 @@ public enum ResultCodeEnum {
     SYSTEM_ERROR(9999 , "您的网络有问题请稍后重试"),
     NODE_ERROR( 217, "该节点下有子节点，不可以删除"),
     DATA_ERROR(204, "数据异常"),
+
     ACCOUNT_STOP( 216, "账号已停用"),
 
     STOCK_LESS( 219, "库存不足"),
     INSERT_FAILL( 220, "插入数据失败"),
     UPDATE_FAILL( 221, "数据更新失败"),
-    ACCOUNT_REGISTERED( 216, "账号名已注册"),
-
+    ACCOUNT_REGISTERED( 217, "账号名已注册"),
     ;
 
     private Integer code ;      // 业务状态码
     private String message ;    // 响应消息
 
     private ResultCodeEnum(Integer code , String message) {
+
+        if(code == 208){
+            System.out.println("??");
+        }
+
         this.code = code ;
         this.message = message ;
     }

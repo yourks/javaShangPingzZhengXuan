@@ -1,8 +1,21 @@
 server:
   port: 8501
 
+#spring:
+#  application:
+#    name: nacos-payment-provider
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848 #配置Nacos地址
 # 配置数据库连接信息
 spring:
+  application:
+    name: service-product
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
