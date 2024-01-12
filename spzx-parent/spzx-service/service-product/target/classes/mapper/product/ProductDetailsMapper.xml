@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.product.mapper.ProductDetailsMapper">
+
+    <resultMap id="ProductDetailsMap" type="com.atguigu.spzx.model.entity.product.ProductDetails" autoMapping="true"></resultMap>
+    <sql id="columns">
+        id,product_id productId,image_urls imageUrls
+        ,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+
+    <select id="selectById" resultMap="ProductDetailsMap">
+        select <include refid="columns"/> from product_details where id = #{ product_id } and is_deleted = 0
+    </select>
+
+</mapper>

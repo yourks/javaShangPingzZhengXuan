@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.product.mapper.ProductSkuMapper">
+    <!--    @Schema(description = "商品编号")-->
+    <!--    private String skuCode;-->
+
+    <!--    @Schema(description = "skuName")-->
+    <!--    private String skuName;-->
+
+    <!--    @Schema(description = "商品ID")-->
+    <!--    private Long productId;-->
+
+    <!--    @Schema(description = "缩略图路径")-->
+    <!--    private String thumbImg;-->
+
+    <!--    @Schema(description = "售价")-->
+    <!--    private BigDecimal salePrice;-->
+
+    <!--    @Schema(description = "市场价")-->
+    <!--    private BigDecimal marketPrice;-->
+
+    <!--    @Schema(description = "成本价")-->
+    <!--    private BigDecimal costPrice;-->
+
+    <!--    @Schema(description = "库存数")-->
+    <!--    private Integer stockNum;-->
+
+    <!--    @Schema(description = "销量")-->
+    <!--    private Integer saleNum;-->
+
+    <!--    @Schema(description = "sku规格信息json")-->
+    <!--    private String skuSpec;-->
+
+    <!--    @Schema(description = "重量")-->
+    <!--    private String weight;-->
+
+    <!--    @Schema(description = "体积")-->
+    <!--    private String volume;-->
+
+    <!--    @Schema(description = "线上状态：0-初始值，1-上架，-1-自主下架")-->
+    <!--    private Integer status;-->
+
+    <resultMap id="ProductSkuMap" type="com.atguigu.spzx.model.entity.product.ProductSku" autoMapping="true"></resultMap>
+    <sql id="columns">
+        id,sku_code skuCode,sku_name skuName,product_id productId,thumb_img thumbImg
+        ,sale_price salePrice,market_price marketPrice,cost_price costPrice,stock_num stockNum
+        ,sale_num saleNum,sku_spec skuSpec,weight,volume,status
+        ,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+
+    <!--    List<ProductSku> selectBySaleNum(String limitCount);-->
+    <select id="selectBySaleNum" resultMap="ProductSkuMap">
+        select <include refid="columns"/> from product_sku
+        ORDER BY sale_num DESC
+        LIMIT 0,#{limitCount}
+    </select>
+
+<!--    List<ProductSku> searchByProductDto(ProductSkuDto productSkuDto);-->
+    <select id="searchByProductDto" resultMap="ProductSkuMap">
+        SELECT product_sku.id ,product_sku.create_time,product_sku.sku_code,product_sku.sku_name
+        ,product_sku.product_id,product_sku.thumb_img,product_sku.sale_price
+        ,product_sku.market_price,product_sku.cost_price,product_sku.stock_num
+        ,product_sku.sale_num,product_sku.sku_spec,product_sku.weight
+        ,product_sku.volume,product_sku.status
+        FROM product_sku
+        LEFT JOIN product ON product_sku.product_id = product.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and product_sku.sku_name like concat('%',#{keyword},'%')
+            </if>
+            <if test="brandId != null">
+                and product.brand_id = #{brandId}
+            </if>
+            <if test="category1Id != null">
+                and product.category1_id = #{category1Id}
+            </if>
+            <if test="category2Id != null">
+                and product.category2_id = #{category2Id}
+            </if>
+            <if test="category3Id != null">
+                and product.category3_id = #{category3Id}
+            </if>
+            and product.is_deleted = 0
+            and product_sku.is_deleted = 0
+            and product.status = 1
+            and product.audit_status = 1
+        </where>
+        <if test="order == 1">
+            ORDER BY product_sku.sale_num desc
+        </if>
+        <if test="order == 2">
+            ORDER BY product_sku.sale_price asc
+        </if>
+        <if test="order == 3">
+            ORDER BY product_sku.sale_price desc
+        </if>
+    </select>
+
+
+<!--    List<ProductSku> selectByProductId(Long product_id);-->
+    <select id="selectByProductId" resultMap="ProductSkuMap">
+        select <include refid="columns"/> from product_sku where product_id = #{ product_id } and is_deleted = 0
+    </select>
+
+    <!--    ProductSku selectById(Long skuId);-->
+    <select id="selectById" resultMap="ProductSkuMap">
+        select <include refid="columns"/> from product_sku where id = #{ id } and is_deleted = 0
+    </select>
+</mapper>
