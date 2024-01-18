@@ -8,11 +8,10 @@ import com.atguigu.spzx.model.entity.h5.CartInfo;
 import com.atguigu.spzx.model.entity.product.ProductSku;
 import com.atguigu.spzx.model.entity.user.UserInfo;
 import com.atguigu.spzx.utils.TemplateThreadLocalUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -173,5 +172,39 @@ public class CartServiceImpl implements CartService {
         String cardId = getCarKey(userdId);
         Boolean row = redisTemplate.delete(cardId);
         return 1;
+    }
+
+
+    /**
+     List<CartInfo> cartInfoList = cartService.getSelectCartInfoList();
+     获取购物车内的数据
+     * */
+    @Override
+    public List<CartInfo> getSelectCartInfoList() {
+        Long userId = TemplateThreadLocalUtils.getUserInfo().getId();
+        String carKey = getCarKey(userId);
+        //objectList 该用户下的所有skuid下的 cartInfo 的jsonStr
+        List<Object> objectList = redisTemplate.opsForHash().values(carKey);
+
+        List<CartInfo> cartInfoList= objectList.stream().map(cardInfoJsonItem -> JSON.parseObject(cardInfoJsonItem.toString(),CartInfo.class))
+                .filter(cardInfoJsonItem -> cardInfoJsonItem.getIsChecked() > 0).collect(Collectors.toList());
+
+        return cartInfoList;
+    }
+
+    @Override
+    public void deleteChecked() {
+        Long userId = TemplateThreadLocalUtils.getUserInfo().getId();
+        String cartKey = getCarKey(userId);
+        List<Object> objectList = redisTemplate.opsForHash().values(cartKey);
+        /**
+          删除选中的购物项数据
+         * */
+        if(!CollectionUtils.isEmpty(objectList)) {
+            objectList.stream()
+                    .map(cartInfoJSON -> JSON.parseObject(cartInfoJSON.toString(), CartInfo.class))
+                    .filter(cartInfo -> cartInfo.getIsChecked() == 1)
+                    .forEach(cartInfo -> redisTemplate.opsForHash().delete(cartKey , String.valueOf(cartInfo.getSkuId())));
+        }
     }
 }

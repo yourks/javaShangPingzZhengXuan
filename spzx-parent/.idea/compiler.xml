@@ -9,14 +9,17 @@
         <module name="common-util" />
         <module name="service-product-client" />
         <module name="common-service" />
+        <module name="service-order-client" />
         <module name="service-user-client" />
         <module name="service-order" />
+        <module name="service-pay" />
         <module name="spzx-server-getway" />
         <module name="spzx-model" />
         <module name="service-product" />
         <module name="service-user" />
         <module name="service-cart" />
         <module name="spzx-manager" />
+        <module name="service-cart-client" />
         <module name="commom-log" />
       </profile>
     </annotationProcessing>
@@ -27,7 +30,10 @@
       <module name="common-service" options="-parameters" />
       <module name="common-util" options="-parameters" />
       <module name="service-cart" options="-parameters" />
+      <module name="service-cart-client" options="-parameters" />
       <module name="service-order" options="-parameters" />
+      <module name="service-order-client" options="-parameters" />
+      <module name="service-pay" options="-parameters" />
       <module name="service-product" options="-parameters" />
       <module name="service-product-client" options="-parameters" />
       <module name="service-user" options="-parameters" />

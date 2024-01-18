@@ -74,6 +74,9 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <scope>provided</scope>
         </dependency>
+
+
     </dependencies>
+
 
 </project>

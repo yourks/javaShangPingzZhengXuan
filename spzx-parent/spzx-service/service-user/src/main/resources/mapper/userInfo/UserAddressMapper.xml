@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<!-- <mapper namespace="com.atguigu.mapper.EmployeeMapper"> -->
+<mapper namespace="com.atguigu.spzx.user.mapper.UserAddressMapper">
+
+    <resultMap id="UserAddressMap" type="com.atguigu.spzx.model.entity.user.UserAddress" autoMapping="true">
+    </resultMap>
+
+<!--    @Schema(description = "用户ID")-->
+<!--    private Long userId;-->
+
+<!--    @Schema(description = "name")-->
+<!--    private String name;-->
+
+<!--    @Schema(description = "电话")-->
+<!--    private String phone;-->
+
+<!--    @Schema(description = "标签名称")-->
+<!--    private String tagName;-->
+
+<!--    @Schema(description = "provinceCode")-->
+<!--    private String provinceCode;-->
+
+<!--    @Schema(description = "cityCode")-->
+<!--    private String cityCode;-->
+
+<!--    @Schema(description = "districtCode")-->
+<!--    private String districtCode;-->
+
+<!--    @Schema(description = "详细地址")-->
+<!--    private String address;-->
+
+<!--    @Schema(description = "完整地址")-->
+<!--    private String fullAddress;-->
+
+<!--    @Schema(description = "是否默认地址（0：否 1：是）")-->
+<!--    private Integer isDefault;-->
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+        id,user_id userId,name,phone,tag_name tagName,province_code provinceCode
+        ,city_code cityCode,district_code districtCode,address,full_address fullAddress
+        ,is_default isDefault
+        ,create_time createTime,update_time updateTime,is_deleted isDeleted
+    </sql>
+
+<!--    List<UserAddress> findUserAddressList();-->
+    <select id="findUserAddressList" resultMap="UserAddressMap">
+        select <include refid="columns"/>
+        from user_address
+        where user_id = #{userId} and is_deleted = 0
+    </select>
+    <!--    List<UserAddress> getById();-->
+    <select id="getById" resultMap="UserAddressMap">
+        select <include refid="columns" />
+        from user_address
+        where
+        id = #{id}
+    </select>
+
+</mapper>

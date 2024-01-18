@@ -9,8 +9,8 @@ import java.util.List;
  */
 public interface CartService {
 
-    public int addToCart( Long skuId ,
-    Integer skuNum );
+    public int addToCart(Long skuId,
+                         Integer skuNum);
 
 
     List<CartInfo> cartList();
@@ -19,10 +19,16 @@ public interface CartService {
     int deleteCart(Long skuId);
 
 
-    int checkCart(Long skuId,Integer isChecked);
+    int checkCart(Long skuId, Integer isChecked);
 
 
     int allCheckCart(Integer isChecked);
 
     int clearCart();
+
+
+    List<CartInfo> getSelectCartInfoList();
+
+
+    public void deleteChecked();
 }

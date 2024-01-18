@@ -161,4 +161,23 @@ public class CarController {
         return Result.build(row,ResultCodeEnum.SUCCESS);
     }
 
+
+    /**
+     想要的是redis内的数据 选中的
+     @GetMapping(value = "/auth/getAllCkecked")
+      * */
+
+    @Operation(summary = "购物车选中数据")
+    @GetMapping("/auth/getAllCkecked")
+    public List<CartInfo> getSelectCartInfoList(){
+        List<CartInfo> cartInfoList = cartService.getSelectCartInfoList();
+        return cartInfoList;
+    }
+
+
+    @GetMapping(value = "/auth/deleteChecked")
+    public Result deleteChecked() {
+        cartService.deleteChecked() ;
+        return Result.build(null , ResultCodeEnum.SUCCESS) ;
+    }
 }

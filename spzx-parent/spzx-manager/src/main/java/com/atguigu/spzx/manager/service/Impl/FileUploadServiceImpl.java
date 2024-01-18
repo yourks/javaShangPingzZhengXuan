@@ -40,6 +40,8 @@ public class FileUploadServiceImpl implements FileUploadService {
                     .endpoint(minioProperties.getEndpointUrl())
                     .credentials(minioProperties.getAccessKey(), minioProperties.getSecreKey())
                     .build();
+            System.out.println("客户端链接成功");
+
             //2
             boolean found = minioClient.bucketExists(BucketExistsArgs.builder().bucket(minioProperties.getBucketName()).build());
             if (!found) {
