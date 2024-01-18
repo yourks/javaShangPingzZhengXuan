@@ -68,6 +68,16 @@
 #  config-location: classpath:/mybatis-config.xml
 #  mapper-locations: classpath:/mapper/*/*.xml
 
+#spring:
+#  profiles:
+#    active: dev
+
+
 spring:
-  profiles:
-    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: 172.80.0.19:8848
+  config:
+    import:
+      - nacos:server-gateway-dev.yaml

@@ -1,4 +1,13 @@
-# application.yml
+## application.yml
+#spring:
+#  profiles:
+#    active: dev
+
 spring:
-  profiles:
-    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: 172.80.0.19:8848
+  config:
+    import:
+      - nacos:service-pay-dev.yaml
